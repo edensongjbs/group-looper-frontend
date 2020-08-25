@@ -7,7 +7,7 @@ import { addLayer } from './actions/layer';
 import { v4 as uuid } from 'uuid'
 import Layers from './containers/layers'
 
-
+Tone.context.lookAhead=0.05
 const synth = new Tone.PolySynth(Tone.Synth).toDestination()
 
 const composition = {
@@ -29,14 +29,38 @@ const notes = {
   k:"C5"
 }
 
+let offset = Tone.context.lookAhead
+
 let soundEvents = []
 
 const playNote = (noteName) => {
   const now = Tone.now()
+  const reallyNow = Tone.context.currentTime
   // console.log(Tone.Transport)
   synth.triggerAttack(noteName, now)
-  synth.triggerRelease(now+0.5)
+  const eventId = Tone.Transport.scheduleRepeat(() => {
+    synth.triggerAttack(noteName)
+    }, 2, now-offset)
+  console.log(eventId)
+  soundEvents.push({id: eventId, instrument: synth, type:"attack", pitch: noteName, time:reallyNow})
 }
+
+const releaseNote = (noteName) => {
+  const now = Tone.now()
+  const reallyNow = Tone.context.currentTime
+  // console.log(Tone.Transport)
+  synth.triggerRelease(noteName, now)
+  const eventId = Tone.Transport.scheduleRepeat(() => {
+    synth.triggerRelease(noteName)
+    },  2, now-offset)
+  soundEvents.push({id: eventId, instrument: synth, type:"release", pitch: noteName, time:reallyNow})
+}
+
+const part = new Tone.Part((time, note)=>{
+  // offset = offset || Tone.now()
+  synth.triggerAttackRelease(note, 0.05, time)
+}, [[0, "C7"],[0.5, "G6"], [1.0, "G6"], [1.5, "G6"]]).start(0)
+part.loop=true
 
 // const scheduleNote = (noteName, startTime) => {
 //   console.log(startTime)
@@ -63,13 +87,13 @@ const scheduleRelease = (noteName, endTime) => {
 
 window.addEventListener("keydown", e => {
   if (e.repeat) {return}
-  // playNote(notes[e.key] || "C4")
-  scheduleAttack(notes[e.key] || "C4", Tone.now()%2)
+   playNote(notes[e.key] || "C4")
+  // scheduleAttack(notes[e.key] || "C4", Tone.now()%2)
 })
 
 window.addEventListener("keyup", e => {
-  // playNote(notes[e.key] || "C4")
-  scheduleRelease(notes[e.key] || "C4", Tone.now()%2)
+  releaseNote(notes[e.key] || "C4")
+  // scheduleRelease(notes[e.key] || "C4", Tone.now()%2)
 })
 
 const createNewLayer = (addLayer) => {
@@ -77,11 +101,8 @@ const createNewLayer = (addLayer) => {
   // debugger
   addLayer({id, noteEvents: [...soundEvents]})
   soundEvents.forEach(se => {
-    if (se.type==="attack") {
-      synth.triggerRelease(se.pitch)
-      se.loop.dispose()
-    }
-  })
+    Tone.Transport.clear(se.id)
+    })
   soundEvents = []
 }
 

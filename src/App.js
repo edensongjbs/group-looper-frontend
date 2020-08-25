@@ -2,6 +2,11 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import * as Tone from 'tone'
+import {connect} from 'react-redux'
+import { addLayer } from './actions/layer';
+import { v4 as uuid } from 'uuid'
+import Layers from './containers/layers'
+
 
 const synth = new Tone.PolySynth(Tone.Synth).toDestination()
 
@@ -44,7 +49,7 @@ const scheduleAttack = (noteName, startTime) => {
   const loopedNote = new Tone.Loop(time => {
     synth.triggerAttack(noteName, time)
   }, 2).start(startTime)
-  soundEvents.push({type:"attack", pitch: noteName, loop: loopedNote, time:startTime})
+  soundEvents.push({instrument: synth, type:"attack", pitch: noteName, loop: loopedNote, time:startTime})
 }
 
 
@@ -53,7 +58,7 @@ const scheduleRelease = (noteName, endTime) => {
   const loopEnd = new Tone.Loop(time => {
     synth.triggerRelease(noteName, time)
   }, 2).start(endTime) 
-  soundEvents.push({type:"release", loop: loopEnd, time:endTime})
+  soundEvents.push({instrument: synth, type:"release", loop: loopEnd, pitch: noteName, time:endTime})
 }
 
 window.addEventListener("keydown", e => {
@@ -66,6 +71,19 @@ window.addEventListener("keyup", e => {
   // playNote(notes[e.key] || "C4")
   scheduleRelease(notes[e.key] || "C4", Tone.now()%2)
 })
+
+const createNewLayer = (addLayer) => {
+  const id = uuid()
+  // debugger
+  addLayer({id, noteEvents: [...soundEvents]})
+  soundEvents.forEach(se => {
+    if (se.type==="attack") {
+      synth.triggerRelease(se.pitch)
+      se.loop.dispose()
+    }
+  })
+  soundEvents = []
+}
 
 
 
@@ -108,19 +126,25 @@ const stopAll = () => {
 // import logo from './logo.svg';
 // import './App.css';
 
-function App() {
+function App(props) {
   Tone.start()
   Tone.Transport.start()
   return (
     <div className="App">
       <button onClick={() => stopAll()}>Stop</button>
-      <button onClick={() => Tone.Transport.start(Tone.now())}>Start</button>
+      <button onClick={() => {
+        Tone.start()
+        Tone.Transport.start(Tone.now())
+      }}>Start</button>
       <button onClick={() => console.log(soundEvents)}>Log Events</button>
       <button onClick={() => {
         soundEvents.forEach(se => se.loop.dispose())
         soundEvents = []
       }}>Clear Events</button>
-
+       <button onClick={() => {
+        createNewLayer(props.addLayer)
+      }}>Export To New Layer</button>
+      <Layers/>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -139,4 +163,9 @@ function App() {
   );
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return { addLayer: (layer) => dispatch(addLayer(layer)) }
+}
+
+
+export default connect(null, mapDispatchToProps)(App);

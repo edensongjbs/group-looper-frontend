@@ -7,7 +7,8 @@ import { addLayer } from './actions/layer';
 import { v4 as uuid } from 'uuid'
 import Layers from './containers/layers'
 
-Tone.context.lookAhead=0.05
+Tone.context.lookAhead=0.01
+Tone.context.updateInterval=0.001
 const synth = new Tone.PolySynth(Tone.Synth).toDestination()
 
 const composition = {

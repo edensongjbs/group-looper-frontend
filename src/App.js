@@ -5,7 +5,7 @@ import * as Tone from 'tone'
 import {connect} from 'react-redux'
 import { addLayer } from './actions/layer';
 import { v4 as uuid } from 'uuid'
-import Layers from './containers/layers'
+import Layers from './containers/Layers'
 import SampleLibrary from './sampler/Tonejs-Instruments'
 
 Tone.context.lookAhead=0.01
@@ -55,19 +55,19 @@ let offset = Tone.context.lookAhead
 
 let soundEvents = []
 
-const playNote = (noteName) => {
-  console.log(ready)
-  if (!ready) {return}
-  const now = Tone.now()
-  const reallyNow = Tone.context.currentTime
-  // console.log(Tone.Transport)
-  synth.triggerAttack(noteName, now)
-  const eventId = Tone.Transport.scheduleRepeat(() => {
-    synth.triggerAttack(noteName)
-    }, 2, now-offset)
-  // console.log(eventId)
-  soundEvents.push({id: eventId, instrument: synth, type:"attack", pitch: noteName, time:reallyNow})
-}
+// const playNote = (noteName) => {
+//   console.log(ready)
+//   if (!ready) {return}
+//   const now = Tone.now()
+//   const reallyNow = Tone.context.currentTime
+//   synth.triggerAttack(noteName, now)
+//   const eventId = Tone.Transport.scheduleRepeat(() => {
+//     synth.triggerAttack(noteName)
+//     }, 2, now-offset)
+//   soundEvents.push({id: eventId, instrument: synth, type:"attack", pitch: noteName, time:reallyNow})
+// }
+
+const playNote = (noteName) => {}
 
 const releaseNote = (noteName) => {
   const now = Tone.now()
@@ -170,39 +170,36 @@ const stopAll = () => {
 // import logo from './logo.svg';
 // import './App.css';
 
+
+//Old Render:
+
+// (<button onClick={() => stopAll()}>Stop</button>
+// <button onClick={() => {
+//   Tone.start()
+//   Tone.Transport.start(Tone.now())
+// }}>Start</button>
+// <button onClick={() => console.log(soundEvents)}>Log Events</button>
+// <button onClick={() => {
+//   soundEvents.forEach(se => se.loop.dispose())
+//   soundEvents = []
+// }}>Clear Events</button>
+//  <button onClick={() => {
+//   createNewLayer(props.addLayer)
+// }}>Export To New Layer</button>
+// <Layers/>)
+
 function App(props) {
   Tone.start()
   Tone.Transport.start()
   return (
-    <div className="App">
-      <button onClick={() => stopAll()}>Stop</button>
-      <button onClick={() => {
-        Tone.start()
-        Tone.Transport.start(Tone.now())
-      }}>Start</button>
-      <button onClick={() => console.log(soundEvents)}>Log Events</button>
-      <button onClick={() => {
-        soundEvents.forEach(se => se.loop.dispose())
-        soundEvents = []
-      }}>Clear Events</button>
-       <button onClick={() => {
-        createNewLayer(props.addLayer)
-      }}>Export To New Layer</button>
-      <Layers/>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="wrapper">
+      <header className="header">
+        <h1>Group Looper</h1>
       </header>
+      <div className="transport">This is the Transport</div>
+      <div className="keyboard-area">This is the Keyboard Area</div>
+      <div className="sidebar">This is the Sidebar</div>
+      <footer className="footer">All Rights Reserved</footer>
     </div>
   );
 }

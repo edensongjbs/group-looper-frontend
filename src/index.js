@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import {createStore} from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
 import {Provider} from 'react-redux'
 import rootReducer from './reducers/root'
-import * as Tone from 'tone'
+// import * as Tone from 'tone'
 
 // const sampler = new Tone.Sampler({
 //   urls: {
@@ -19,7 +20,7 @@ import * as Tone from 'tone'
 //   }
 // }).toDestination
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
 ReactDOM.render(
   <React.StrictMode>

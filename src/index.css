@@ -39,16 +39,51 @@ code {
 .transport {
   background-color: #111;
   min-height: 125px;
+  display: grid;
+  grid-template: auto 1fr / 1fr 1fr 1fr;
+}
+
+.song-title {
+  display: flex;
+  grid-column: 1/3;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.song-title > h3 {
+  margin-block-start: 5px;
+  margin-block-end: 5px;
+}
+
+.layer-name {
+  display: flex;
+  grid-column: 3/4;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.layer-name > h4 {
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+}
+
+.transport > div {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+
+
 .sidebar {
   background-color: #222;
   justify-content: center;
-  align-items: center;
-  display: flex;
+  grid-column: 100%;
+  grid-template-columns: 1fr 1fr; 
+  align-items: flex-start;
+  display: grid;
   grid-area: 2/2/4/3;
   min-width: 250px;
   min-height: 300px
@@ -69,5 +104,103 @@ code {
     grid-template-rows: 100px 1fr 4fr 1fr;
 
   }
+  .sidebar {
+    grid-template-rows: 1fr 2fr;
+    grid-template-columns: 1fr; 
+  }
+  .layers > .layer-scroll {
+    max-height: 340px;
+    min-height: 340px;
+  }
+  .users > .user-scroll {
+    max-height: 160px;
+    min-height: 160px;
+  }
 }
 
+select, button {
+  font-family: inherit;
+  color: inherit;
+  background-color: inherit;
+}
+
+.transport > .playback-controls {
+  justify-content: space-around;
+}
+
+.transport > .sound-select {
+  display: grid;
+  grid-row: auto 1fr;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.sound-select > p {
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+  align-self: flex-end;
+}
+
+.user-scroll {
+  display: flex;
+  flex-direction: column;
+  background-color: #333;
+  min-width: 200px;
+  max-width: 200px;
+  max-height: 250px;
+  min-height: 250px;
+  margin-left: 10px;
+  margin-right: 10px;
+  /* width: auto; */
+  margin: auto;
+  overflow: scroll;
+}
+
+.user-scroll > ul {
+  overflow: scroll;
+}
+
+li {
+  overflow: scroll;
+}
+
+.user-li {
+  overflow: scroll;
+}
+
+.layer-scroll {
+  display: flex;
+  flex-direction: column;
+  background-color: #333;
+  min-width: 200px;
+  max-width: 200px;
+  max-height: 250px;
+  min-height: 250px;
+  margin-left: 10px;
+  margin-right: 10px;
+  /* width: auto; */
+  margin: auto;
+  overflow: scroll;
+}
+
+.layer-scroll > ul {
+  overflow: scroll;
+}
+
+.users {
+  display: grid;
+  grid-row: auto 1fr;
+  grid-column: 1fr;
+}
+
+.users-title {
+  display: flex;
+  grid-column: 1/2;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.users-title > h3 {
+  margin-block-start: 5px;
+  margin-block-end: 5px;
+}

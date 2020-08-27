@@ -7,6 +7,11 @@ import { addLayer } from './actions/layer';
 import { v4 as uuid } from 'uuid'
 import Layers from './containers/Layers'
 import SampleLibrary from './sampler/Tonejs-Instruments'
+import Header from './containers/Header'
+import TransportBar from './containers/TransportBar'
+import KeyboardArea from './containers/KeyboardArea'
+import Sidebar from './containers/Sidebar'
+import Footer from './containers/Footer'
 
 Tone.context.lookAhead=0.01
 Tone.context.updateInterval=0.001
@@ -193,13 +198,11 @@ function App(props) {
   Tone.Transport.start()
   return (
     <div className="wrapper">
-      <header className="header">
-        <h1>Group Looper</h1>
-      </header>
-      <div className="transport">This is the Transport</div>
-      <div className="keyboard-area">This is the Keyboard Area</div>
-      <div className="sidebar">This is the Sidebar</div>
-      <footer className="footer">All Rights Reserved</footer>
+      <Header/>
+      <TransportBar/>
+      <KeyboardArea/>
+      <Sidebar/>
+      <Footer/>
     </div>
   );
 }

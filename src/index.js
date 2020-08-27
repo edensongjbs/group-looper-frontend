@@ -6,6 +6,18 @@ import * as serviceWorker from './serviceWorker';
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 import rootReducer from './reducers/root'
+import * as Tone from 'tone'
+
+// const sampler = new Tone.Sampler({
+//   urls: {
+//     A1: "A1.mp3"
+//   },
+//   baseUrl: "./samples/piano/",
+//   onload: () => {
+//     console.log("sampler is ready!")
+//     sampler.triggerAttackRelease("A1", 0.5)
+//   }
+// }).toDestination
 
 const store = createStore(rootReducer)
 

@@ -5,10 +5,12 @@
 * https://github.com/nbrosowsky/tonejs-instruments
 */
 
-export default const SampleLibrary = {
+import * as Tone from 'tone'
+
+const SampleLibrary = {
     minify: false,
     ext: '.[mp3|ogg]', // use setExt to change the extensions on all files // do not change this variable //
-    baseUrl: '/samples/',
+    baseUrl: './samples/',
     list: ['bass-electric','bassoon','cello','clarinet','contrabass','flute','french-horn','guitar-acoustic','guitar-electric','guitar-nylon', 'harmonium','harp','organ','piano','saxophone','trombone','trumpet','tuba','violin','xylophone'],
     onload: null,
   
@@ -644,3 +646,5 @@ export default const SampleLibrary = {
 
 
 }
+
+export default SampleLibrary

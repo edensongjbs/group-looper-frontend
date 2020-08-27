@@ -6,10 +6,31 @@ import {connect} from 'react-redux'
 import { addLayer } from './actions/layer';
 import { v4 as uuid } from 'uuid'
 import Layers from './containers/layers'
+import SampleLibrary from './sampler/Tonejs-Instruments'
 
 Tone.context.lookAhead=0.01
 Tone.context.updateInterval=0.001
-const synth = new Tone.PolySynth(Tone.Synth).toDestination()
+const vol = new Tone.Volume(0).toDestination()
+const synthex = new Tone.PolySynth(Tone.Synth).toDestination()
+const synth = SampleLibrary.load({instruments:"piano", onload:()=>ready=true}).connect(vol)
+let ready = false
+// Tone.Buffer.on('load', () => {
+//   piano.toMaster();
+//   piano.triggerAttack("A3")
+// })
+
+// const sampler = new Tone.Sampler({
+//   urls: {
+//     A1: "A1.mp3"
+//   },
+//   baseUrl: "./samples/piano/",
+//   onload: () => {
+//     console.log("sampler is ready!")
+//     sampler.triggerAttackRelease("C1", 1)
+//   }
+// }).toDestination()
+
+
 
 const composition = {
   numBeatsPerBeat:4,
@@ -35,6 +56,8 @@ let offset = Tone.context.lookAhead
 let soundEvents = []
 
 const playNote = (noteName) => {
+  console.log(ready)
+  if (!ready) {return}
   const now = Tone.now()
   const reallyNow = Tone.context.currentTime
   // console.log(Tone.Transport)
@@ -42,7 +65,7 @@ const playNote = (noteName) => {
   const eventId = Tone.Transport.scheduleRepeat(() => {
     synth.triggerAttack(noteName)
     }, 2, now-offset)
-  console.log(eventId)
+  // console.log(eventId)
   soundEvents.push({id: eventId, instrument: synth, type:"attack", pitch: noteName, time:reallyNow})
 }
 
@@ -57,11 +80,10 @@ const releaseNote = (noteName) => {
   soundEvents.push({id: eventId, instrument: synth, type:"release", pitch: noteName, time:reallyNow})
 }
 
-const part = new Tone.Part((time, note)=>{
-  // offset = offset || Tone.now()
-  synth.triggerAttackRelease(note, 0.05, time)
-}, [[0, "C7"],[0.5, "G6"], [1.0, "G6"], [1.5, "G6"]]).start(0)
-part.loop=true
+// const part = new Tone.Part((time, note)=>{
+//   synth.triggerAttackRelease(note, 0.05, time)
+// }, [[0, "C7"],[0.5, "G6"], [1.0, "G6"], [1.5, "G6"]]).start(0)
+// part.loop=true
 
 // const scheduleNote = (noteName, startTime) => {
 //   console.log(startTime)

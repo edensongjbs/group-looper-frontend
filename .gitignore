@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-/lib/sampler/samples
+/public/samples
 /.pnp
 .pnp.js
 

@@ -2,6 +2,8 @@ import React from 'react'
 import * as Tone from 'tone'
 import * as uuid from 'uuid'
 import * as Global from '../settings/global_settings'
+import { connect } from 'react-redux'
+import { loadInstrument } from '../lib/instrument_loader'
 
 //Old Render:
 
@@ -20,7 +22,7 @@ import * as Global from '../settings/global_settings'
 // }}>Export To New Layer</button>
 // <Layers/>)
 
-export default class KeyboardArea extends React.Component {
+class KeyboardArea extends React.Component {
     
     // composition = {
     //     numBeatsPerBeat:4,
@@ -28,13 +30,15 @@ export default class KeyboardArea extends React.Component {
     // }
       
       
-      
+    synth = null  
     offset = Tone.context.lookAhead
     
     soundEvents = []
-    ready = true
+    ready = false
 
-    synth = new Tone.PolySynth(Tone.Synth).toDestination()
+    // synth = new Tone.PolySynth(Tone.Synth).toDestination()
+
+    // synth = loadInstrument(this.props.instrumentName, this) //sending this to reference ready in callBack
     
     playNote = (noteName) => {
         console.log(this.ready)
@@ -72,8 +76,14 @@ export default class KeyboardArea extends React.Component {
     // }, 2).start(endTime) 
     // soundEvents.push({instrument: synth, type:"release", loop: loopEnd, pitch: noteName, time:endTime})
     // }
-    
+    componentDidUpdate = () => {
+        this.ready = false
+        this.synth = loadInstrument(this.props.instrumentName, this)
+    }
+
     componentDidMount = () => {
+
+        this.synth = loadInstrument(this.props.instrumentName, this).toDestination()
         window.addEventListener("keydown", e => {
             if (e.repeat) {return}
             this.playNote(Global.notes[e.key] || "C4")
@@ -113,3 +123,9 @@ export default class KeyboardArea extends React.Component {
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    instrumentName: state.instruments.current
+})
+
+export default connect(mapStateToProps)(KeyboardArea)

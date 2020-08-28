@@ -63,19 +63,6 @@ class KeyboardArea extends React.Component {
         this.props.addNoteEvent({id: eventId, instrument: this.synth, type:"release", pitch: noteName, time:reallyNow})
     }
     
-    // const scheduleAttack = (noteName, startTime) => {
-    // const loopedNote = new Tone.Loop(time => {
-    //     synth.triggerAttack(noteName, time)
-    // }, 2).start(startTime)
-    // soundEvents.push({instrument: synth, type:"attack", pitch: noteName, loop: loopedNote, time:startTime})
-    // }
-    
-    // const scheduleRelease = (noteName, endTime) => {
-    // const loopEnd = new Tone.Loop(time => {
-    //     synth.triggerRelease(noteName, time)
-    // }, 2).start(endTime) 
-    // soundEvents.push({instrument: synth, type:"release", loop: loopEnd, pitch: noteName, time:endTime})
-    // }
     componentDidUpdate = () => {
         this.ready = false
         this.synth = loadInstrument(this.props.instrumentName, this)
@@ -98,25 +85,7 @@ class KeyboardArea extends React.Component {
         }))
     }
     
-    //Move out
-    // createNewLayer = (addLayer) => {
-    //     const id = uuid()
-    //     addLayer({id, noteEvents: [...soundEvents]})
-    //     soundEvents.forEach(se => {
-    //         Tone.Transport.clear(se.id)
-    //         })
-    //     soundEvents = []
-    // }
     
-    // Moveout
-    // stopAll = () => {
-    // soundEvents.forEach(se => {
-    //     if (se.type==="attack") {
-    //     synth.triggerRelease(se.pitch)
-    //     }
-    //     })
-    //     Tone.Transport.stop(Tone.now())
-    // }
 
 
     render() {

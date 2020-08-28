@@ -12,26 +12,6 @@ import Sidebar from './containers/Sidebar'
 import Footer from './containers/Footer'
 
 
-
-
-// const sampler = new Tone.Sampler({
-//   urls: {
-//     A1: "A1.mp3"
-//   },
-//   baseUrl: "./samples/piano/",
-//   onload: () => {
-//     console.log("sampler is ready!")
-//     sampler.triggerAttackRelease("C1", 1)
-//   }
-// }).toDestination()
-
-
-
-
-
-
-
-
 function App(props) {
   Tone.start()
   Tone.Transport.start()

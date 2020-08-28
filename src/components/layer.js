@@ -4,49 +4,74 @@ import React from 'react'
 import * as Tone from 'tone'
 // import { render } from '@testing-library/react'
 
-let theSequence= []
-  
+class Layer extends React.Component {
 
-const addToSequence = (layer, instrument) => {
-    console.log(layer, instrument)
-    layer.noteEvents.forEach( noteEvent => {
-        if (noteEvent.type==="release") {
-            const eventId = Tone.Transport.scheduleRepeat(() => {
-                instrument.triggerRelease(noteEvent.pitch)
-                }, 2, noteEvent.time)
-            theSequence.push({...noteEvent, eventId})
-        }
-        else if (noteEvent.type==="attack") {
-            const eventId = Tone.Transport.scheduleRepeat(() => {
-                instrument.triggerAttack(noteEvent.pitch)
-                }, 2, noteEvent.time)
-            theSequence.push({...noteEvent, eventId})
-        }
-    })
-}
+    state = {
+        playing: true,
+        loaded: false
+    }
 
-const removeSequence = (instrument) => {
-    theSequence.forEach(se => {
-        Tone.Transport.clear(se.eventId)
-        if (se.type==="attack") {
-            instrument.triggerRelease(se.pitch)
-        }
-    })
-   theSequence = []
-}
+    theSequence= []
+    
+    addToSequence = (layer, instrument) => {
+        console.log(layer, instrument)
+        layer.noteEvents.forEach( noteEvent => {
+            if (noteEvent.type==="release") {
+                const eventId = Tone.Transport.scheduleRepeat(() => {
+                    if (!this.state.loaded) {return}
+                    instrument.triggerRelease(noteEvent.pitch)
+                    }, 2, noteEvent.time)
+                this.theSequence.push({...noteEvent, eventId})
+            }
+            else if (noteEvent.type==="attack") {
+                const eventId = Tone.Transport.scheduleRepeat(() => {
+                    if (!this.state.loaded) {return}
+                    instrument.triggerAttack(noteEvent.pitch)
+                    }, 2, noteEvent.time)
+                this.theSequence.push({...noteEvent, eventId})
+            }
+        })
+    }
 
-const Layer = (props) => {
-    console.log(`rendering ${props.layer.id}`)
-    return(
-    <li>
-        <p>{props.layer.id}</p>
-        <button onClick={() => addToSequence(props.layer, props.instrument)}>UnMute</button>
-        <button onClick={() => removeSequence(props.instrument)}>Mute</button>
-        <button onClick={ () => {
-            console.log(Tone.now())
-        }}>Log this Transport</button>
-    </li>
-    )
+    removeSequence = (instrument) => {
+        this.theSequence.forEach(se => {
+            Tone.Transport.clear(se.eventId)
+            if (se.type==="attack") {
+                instrument.triggerRelease(se.pitch)
+            }
+        })
+        this.theSequence = []
+    }
+
+    muteOrUnmuteLayer = () => {
+        if (this.state.playing) {
+            this.removeSequence(this.props.instrument)
+        }
+        else {
+            this.addToSequence(this.props.layer, this.props.instrument)
+        }
+    }
+
+    playStatus = () => {
+        if (!this.state.loaded) {
+            return "layer-loading"
+        }
+        else if (this.playing) {
+            return "layer-playing"
+        }
+        else {
+            return "layer-muted"
+        }
+    }
+
+    render() {
+        console.log(`rendering ${this.props.layer.id}`)
+        return(
+            <li>
+                <div className="layer-li"><button>X</button><span className={this.playStatus} onClick={this.muteOrUnmuteLayer}>{this.props.layer.id}</span></div>
+            </li>
+        )
+    }
 }
 
 export default Layer

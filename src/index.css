@@ -204,3 +204,15 @@ li {
   margin-block-start: 5px;
   margin-block-end: 5px;
 }
+
+.layer-muted {
+  color: red;
+}
+
+.layer-playing {
+  color: greenyellow;
+}
+
+.layer-loading {
+  color: orange;
+}

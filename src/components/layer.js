@@ -12,6 +12,10 @@ class Layer extends React.Component {
     }
 
     theSequence= []
+
+    // componentDidMount() => {
+    //     this.addToSequence(this.props.layer)
+    // }
     
     addToSequence = (layer, instrument) => {
         console.log(layer, instrument)
@@ -68,7 +72,7 @@ class Layer extends React.Component {
         console.log(`rendering ${this.props.layer.id}`)
         return(
             <li>
-                <div className="layer-li"><button>X</button><span className={this.playStatus} onClick={this.muteOrUnmuteLayer}>{this.props.layer.id}</span></div>
+                <div className="layer-li"><button>X</button><span className={this.playStatus()} onClick={this.muteOrUnmuteLayer}>{this.props.layer.id}</span></div>
             </li>
         )
     }

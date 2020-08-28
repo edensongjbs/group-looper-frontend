@@ -10,15 +10,15 @@ export default class LayersContainer extends React.Component {
                 </div>
                 <div className="layer-scroll">
                     <ul>
-                        {/* <Layers/> */}
+                        {<Layers/>}
                         
+                        {/* <li><div><button>X</button>UserName Here</div></li>
                         <li><div><button>X</button>UserName Here</div></li>
                         <li><div><button>X</button>UserName Here</div></li>
                         <li><div><button>X</button>UserName Here</div></li>
                         <li><div><button>X</button>UserName Here</div></li>
                         <li><div><button>X</button>UserName Here</div></li>
-                        <li><div><button>X</button>UserName Here</div></li>
-                        <li><div><button>X</button>UserName Here</div></li>
+                        <li><div><button>X</button>UserName Here</div></li> */}
                     </ul>
                 </div>
             </div>

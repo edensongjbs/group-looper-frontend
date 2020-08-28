@@ -8,14 +8,13 @@ const Layers = (props) => {
     return(
         <ul>
             {props.layers.map( layer => {
-                return <Layer layer={layer} instrument={new Tone.PolySynth(Tone.Synth).toDestination()}/>
+                return <Layer key={layer.id} layer={layer} instrument={new Tone.PolySynth(Tone.Synth).toDestination()}/>
             })}
         </ul>
     )
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
     return {layers: state.layers}
 }
 

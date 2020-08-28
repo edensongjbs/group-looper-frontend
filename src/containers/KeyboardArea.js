@@ -29,11 +29,11 @@ class KeyboardArea extends React.Component {
     //     numBars:4,
     // }
       
-      
+    eventListeners = [] 
     synth = null  
     offset = Tone.context.lookAhead
     
-    soundEvents = []
+    // soundEvents = []
     ready = false
 
     // synth = new Tone.PolySynth(Tone.Synth).toDestination()
@@ -49,7 +49,7 @@ class KeyboardArea extends React.Component {
         const eventId = Tone.Transport.scheduleRepeat(() => {
             this.synth.triggerAttack(noteName)
             }, 2, now-this.offset)
-        this.soundEvents.push({id: eventId, instrument: this.synth, type:"attack", pitch: noteName, time:reallyNow})
+        this.props.addNoteEvent({id: eventId, instrument: this.synth, type:"attack", pitch: noteName, time:reallyNow})
     }
     
     releaseNote = (noteName) => {
@@ -60,7 +60,7 @@ class KeyboardArea extends React.Component {
         const eventId = Tone.Transport.scheduleRepeat(() => {
             this.synth.triggerRelease(noteName)
             },  2, now-this.offset)
-        this.soundEvents.push({id: eventId, instrument: this.synth, type:"release", pitch: noteName, time:reallyNow})
+        this.props.addNoteEvent({id: eventId, instrument: this.synth, type:"release", pitch: noteName, time:reallyNow})
     }
     
     // const scheduleAttack = (noteName, startTime) => {
@@ -81,17 +81,21 @@ class KeyboardArea extends React.Component {
         this.synth = loadInstrument(this.props.instrumentName, this)
     }
 
+    componentWillUnmount = () => {
+        this.eventListeners.forEach(el => window.removeEventListener(el))
+    }
+
     componentDidMount = () => {
 
         this.synth = loadInstrument(this.props.instrumentName, this).toDestination()
-        window.addEventListener("keydown", e => {
+        this.eventListeners.push(window.addEventListener("keydown", e => {
             if (e.repeat) {return}
             this.playNote(Global.notes[e.key] || "C4")
-        })
+        }))
             
-        window.addEventListener("keyup", e => {
+        this.eventListeners.push(window.addEventListener("keyup", e => {
             this.releaseNote(Global.notes[e.key] || "C4")
-        })
+        }))
     }
     
     //Move out
@@ -116,6 +120,7 @@ class KeyboardArea extends React.Component {
 
 
     render() {
+        console.log("Key area re-rendering")
         return(
             <div className="keyboard-area">
                 This is the Keyboard Area
@@ -128,4 +133,8 @@ const mapStateToProps = (state) => ({
     instrumentName: state.instruments.current
 })
 
-export default connect(mapStateToProps)(KeyboardArea)
+const mapDispatchToProps = (dispatch) => ({
+    addNoteEvent: (noteEvent) => dispatch({type:'ADD_NOTE_EVENT', noteEvent})
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(KeyboardArea)

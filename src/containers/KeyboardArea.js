@@ -54,6 +54,7 @@ class KeyboardArea extends React.Component {
     }
     
     releaseNote = (noteName) => {
+        if (!this.props.instrument.loaded) {return}
         console.log(this.props)
         const now = Tone.now()
         const reallyNow = Tone.context.currentTime
@@ -71,9 +72,12 @@ class KeyboardArea extends React.Component {
     //     this.synth = loadInstrument(this.props.instrumentName, this)
     // }
 
-    componentWillUnmount = () => {
-        this.eventListeners.forEach(el => window.removeEventListener(el))
-    }
+
+    //NEED TO FIGURE OUT HOW TO DO THIS!!!!
+    // componentWillUnmount = () => {
+    //     console.log(this.eventListeners)
+    //     this.eventListeners.forEach(el => window.removeEventListener(el))
+    // }
 
     componentDidMount = () => {
 

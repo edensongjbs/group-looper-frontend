@@ -8,10 +8,7 @@ class Layer extends React.Component {
 
     state = {
         playing: true,
-        loaded: false
     }
-
-    ready = false
 
     theSequence= []
 
@@ -20,23 +17,31 @@ class Layer extends React.Component {
     // }
     
     addToSequence = (layer, instrument) => {
-        console.log(layer, instrument)
+        // console.log(layer, instrument)
         layer.noteEvents.forEach( noteEvent => {
+            // console.log(noteEvent)
             if (noteEvent.type==="release") {
                 const eventId = Tone.Transport.scheduleRepeat(() => {
-                    if (!this.state.loaded) {return}
+                    if (!this.props.instrument.loaded) {return}
+                    console.log("release", noteEvent)
                     instrument.triggerRelease(noteEvent.pitch)
                     }, 2, noteEvent.time)
                 this.theSequence.push({...noteEvent, eventId})
             }
             else if (noteEvent.type==="attack") {
                 const eventId = Tone.Transport.scheduleRepeat(() => {
-                    if (!this.state.loaded) {return}
+                    if (!this.props.instrument.loaded) {return}
+                    console.log("attack", noteEvent)
                     instrument.triggerAttack(noteEvent.pitch)
                     }, 2, noteEvent.time)
                 this.theSequence.push({...noteEvent, eventId})
             }
         })
+    }
+
+    componentDidMount = () => {
+        console.log(this.props)
+        this.addToSequence(this.props.layer, this.props.instrument.instrumentObject)
     }
 
     removeSequence = (instrument) => {
@@ -59,10 +64,10 @@ class Layer extends React.Component {
     }
 
     playStatus = () => {
-        if (this.ready) {
+        if (!this.props.instrument.loaded) {
             return "layer-loading"
         }
-        else if (this.playing) {
+        else if (this.state.playing) {
             return "layer-playing"
         }
         else {
@@ -71,7 +76,6 @@ class Layer extends React.Component {
     }
 
     render() {
-        console.log(`rendering ${this.props.layer.id}`)
         return(
             <li>
                 <div className="layer-li"><button>X</button><span className={this.playStatus()} onClick={this.muteOrUnmuteLayer}>{this.props.layer.id}</span></div>

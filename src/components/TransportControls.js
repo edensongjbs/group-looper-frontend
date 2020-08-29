@@ -1,11 +1,14 @@
 import React from 'react'
 import { Tone } from 'tone/build/esm/core/Tone'
 import { connect } from 'react-redux'
+import {v4 as uuid} from 'uuid'
 
 class TransportControls extends React.Component {
     
     commitHandler = () => {
-        this.props.createLayer(this.props.currentLayer)
+        const id = uuid()
+        this.props.currentInstrumentToNewLayer(id)
+        this.props.createLayer(this.props.currentLayer, id)
         this.props.clearNoteEvents()
     }
 
@@ -27,10 +30,11 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+    currentInstrumentToNewLayer: (layerId) => dispatch({type:'CURRENT_INSTRUMENT_TO_NEW_LAYER', layerId}),
     startMusic: () => dispatch({type:'START_MUSIC'}),
     stopMusic: () => dispatch({type:'STOP_MUSIC'}),
     clearNoteEvents: () => dispatch({type:'CLEAR_NOTE_EVENTS'}),
-    createLayer: (layer) => dispatch({type:'CREATE_LAYER', layer, callBack: () => dispatch({type: 'CLEAR_NOTE_EVENTS'})}),
+    createLayer: (layer, layerId) => dispatch({type:'CREATE_LAYER', layer, layerId, callBack: () => dispatch({type: 'CLEAR_NOTE_EVENTS'})}),
     // exportNoteEvents: (currentLayer) => dispatch({type:'EXPORT_NOTE_EVENTS', currentLayer}),
 })
 

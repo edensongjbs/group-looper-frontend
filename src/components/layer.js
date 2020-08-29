@@ -11,6 +11,8 @@ class Layer extends React.Component {
         loaded: false
     }
 
+    ready = false
+
     theSequence= []
 
     // componentDidMount() => {
@@ -57,7 +59,7 @@ class Layer extends React.Component {
     }
 
     playStatus = () => {
-        if (!this.state.loaded) {
+        if (this.ready) {
             return "layer-loading"
         }
         else if (this.playing) {

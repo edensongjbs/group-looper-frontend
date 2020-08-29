@@ -1,13 +1,14 @@
 import React from 'react'
 import SampleLibrary from '../sampler/Tonejs-Instruments'
 import { connect } from 'react-redux'
+import { loadInstrument } from '../actions/instrument'
 
 class CurrentLayerControls extends React.Component {
 
     allOptions = () => SampleLibrary.list.map((instrumentName, index) => <option key={index} value={instrumentName}>{instrumentName}</option>)
 
     selectNewInstrument = (e) => {
-        this.props.changeInstrumentName(e.target.value, "current")
+        this.props.loadInstrument(e.target.value, "current")
     }
 
     render() {
@@ -24,7 +25,7 @@ class CurrentLayerControls extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    changeInstrumentName: (instrumentName, layerId) => dispatch({type:'CHANGE_INSTRUMENT', instrumentName, layerId}) 
+    loadInstrument: (instrumentName, layerId) => dispatch(loadInstrument(instrumentName, layerId))
 })
 
 export default connect(null, mapDispatchToProps)(CurrentLayerControls)

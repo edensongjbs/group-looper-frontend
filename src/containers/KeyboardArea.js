@@ -3,7 +3,7 @@ import * as Tone from 'tone'
 import * as uuid from 'uuid'
 import * as Global from '../settings/global_settings'
 import { connect } from 'react-redux'
-import { loadInstrument } from '../lib/instrument_loader'
+import { loadInstrument } from '../actions/instrument'
 
 //Old Render:
 
@@ -41,32 +41,35 @@ class KeyboardArea extends React.Component {
     // synth = loadInstrument(this.props.instrumentName, this) //sending this to reference ready in callBack
     
     playNote = (noteName) => {
-        console.log(this.ready)
-        if (!this.ready) {return}
+        // console.log(this.props.instrument.loaded)
+        if (!this.props.instrument.loaded) {return}
+        const synth = this.props.instrument.instrumentObject
         const now = Tone.now()
         const reallyNow = Tone.context.currentTime
-        this.synth.triggerAttack(noteName, now)
+        synth.triggerAttack(noteName, now)
         const eventId = Tone.Transport.scheduleRepeat(() => {
-            this.synth.triggerAttack(noteName)
+            synth.triggerAttack(noteName)
             }, 2, now-this.offset)
-        this.props.addNoteEvent({id: eventId, instrument: this.synth, type:"attack", pitch: noteName, time:reallyNow})
+        this.props.addNoteEvent({id: eventId, instrument: synth, type:"attack", pitch: noteName, time:reallyNow})
     }
     
     releaseNote = (noteName) => {
+        console.log(this.props)
         const now = Tone.now()
         const reallyNow = Tone.context.currentTime
+        const synth = this.props.instrument.instrumentObject
         // console.log(Tone.Transport)
-        this.synth.triggerRelease(noteName, now)
+        synth.triggerRelease(noteName, now)
         const eventId = Tone.Transport.scheduleRepeat(() => {
-            this.synth.triggerRelease(noteName)
+            synth.triggerRelease(noteName)
             },  2, now-this.offset)
-        this.props.addNoteEvent({id: eventId, instrument: this.synth, type:"release", pitch: noteName, time:reallyNow})
+        this.props.addNoteEvent({id: eventId, instrument: synth, type:"release", pitch: noteName, time:reallyNow})
     }
     
-    componentDidUpdate = () => {
-        this.ready = false
-        this.synth = loadInstrument(this.props.instrumentName, this)
-    }
+    // componentDidUpdate = () => {
+    //     this.ready = false
+    //     this.synth = loadInstrument(this.props.instrumentName, this)
+    // }
 
     componentWillUnmount = () => {
         this.eventListeners.forEach(el => window.removeEventListener(el))
@@ -74,7 +77,8 @@ class KeyboardArea extends React.Component {
 
     componentDidMount = () => {
 
-        this.synth = loadInstrument(this.props.instrumentName, this).toDestination()
+        // this.synth = loadInstrument(this.props.instrumentName, this).toDestination()
+        // Instrument Loading Moved to Select Instrument Component
         this.eventListeners.push(window.addEventListener("keydown", e => {
             if (e.repeat) {return}
             this.playNote(Global.notes[e.key] || "C4")
@@ -99,11 +103,12 @@ class KeyboardArea extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    instrumentName: state.instruments.current
+    instrument: state.instruments.current
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    addNoteEvent: (noteEvent) => dispatch({type:'ADD_NOTE_EVENT', noteEvent})
+    addNoteEvent: (noteEvent) => dispatch({type:'ADD_NOTE_EVENT', noteEvent}),
+    loadInstrument
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(KeyboardArea)

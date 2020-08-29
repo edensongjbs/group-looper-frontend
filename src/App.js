@@ -3,7 +3,6 @@ import logo from './logo.svg';
 import './App.css';
 import * as Tone from 'tone'
 import {connect} from 'react-redux'
-import { addLayer } from './actions/layer';
 import { v4 as uuid } from 'uuid'
 import Header from './containers/Header'
 import TransportBar from './containers/TransportBar'
@@ -26,9 +25,9 @@ function App(props) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return { addLayer: (layer) => dispatch(addLayer(layer)) }
-}
+// const mapDispatchToProps = (dispatch) => {
+//   return { addLayer: (layer) => dispatch(addLayer(layer)) }
+// }
 
 
-export default connect(null, mapDispatchToProps)(App);
+export default App

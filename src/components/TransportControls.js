@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tone } from 'tone/build/esm/core/Tone'
+import * as Tone from 'tone'
 import { connect } from 'react-redux'
 import {v4 as uuid} from 'uuid'
 
@@ -10,6 +10,25 @@ class TransportControls extends React.Component {
         this.props.currentInstrumentToNewLayer(id)
         this.props.createLayer(this.props.currentLayer, id)
         this.props.clearNoteEvents()
+    }
+
+
+    // Will need to abstract this out
+    createMetronomePart = () => {
+        const metronomePart = []
+        metronomePart.push({type:"attack", pitch: "C5", time:Tone.now()})
+        metronomePart.push({type:"attack", pitch: "A4", time:Tone.now()+0.5})
+        metronomePart.push({type:"attack", pitch: "A4", time:Tone.now()+1.0})
+        metronomePart.push({type:"attack", pitch: "A4", time:Tone.now()+1.5})
+        metronomePart.push({type:"release", pitch: "C5", time:Tone.now()+0.25})
+        metronomePart.push({type:"release", pitch: "A4", time:Tone.now()+0.75})
+        metronomePart.push({type:"release", pitch: "A4", time:Tone.now()+1.25})
+        metronomePart.push({type:"release", pitch: "A4", time:Tone.now()+1.75})
+        this.props.createLayer(metronomePart, "metronome")
+    }
+
+    componentDidMount = () => {
+        this.createMetronomePart()
     }
 
     render() {

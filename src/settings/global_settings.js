@@ -22,5 +22,5 @@ export const notes = {
 
 // const metronomePart = new Tone.Part((time, note)=>{
 //     synth.triggerAttackRelease(note, 0.05, time)
-//   }, [[0, "C7"],[0.5, "G6"], [1.0, "G6"], [1.5, "G6"]]).start(0)
-//   part.loop=true
+//   }, [[0, "C5"],[0.5, "A4"], [1.0, "A4"], [1.5, "A4"]]).start(0)
+// part.loop=true

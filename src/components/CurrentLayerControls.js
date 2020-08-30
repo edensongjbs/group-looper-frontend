@@ -8,13 +8,19 @@ class CurrentLayerControls extends React.Component {
     allOptions = () => SampleLibrary.list.map((instrumentName, index) => <option key={index} value={instrumentName}>{instrumentName}</option>)
 
     selectNewInstrument = (e) => {
-        console.log(`selecting new instrument: ${e.target.value}`)
+        console.log(e.target)
+        e.target.blur()
         this.props.loadInstrument(e.target.value, "current")
+    }
+
+    createMetronomeLayer = () => {
+        this.props.loadInstrument("metronome", "current")
     }
 
     //Some craziness - is there a more React way to hanlde this?
     componentDidMount = () => {
-        this.selectNewInstrument({target:{value:(document.querySelector(".sound-selector-select").value)}})
+        this.selectNewInstrument({target:{blur:()=>{}, value:(document.querySelector(".sound-selector-select").value)}})
+        this.createMetronomeLayer()
     }
 
     render() {

@@ -11,19 +11,12 @@ class Layer extends React.Component {
     }
 
     theSequence= []
-
-    // componentDidMount() => {
-    //     this.addToSequence(this.props.layer)
-    // }
     
     addToSequence = (layer, instrument) => {
-        // console.log(layer, instrument)
         layer.noteEvents.forEach( noteEvent => {
-            // console.log(noteEvent)
             if (noteEvent.type==="release") {
                 const eventId = Tone.Transport.scheduleRepeat(() => {
                     if (!this.props.instrument.loaded) {return}
-                    console.log("release", noteEvent)
                     instrument.triggerRelease(noteEvent.pitch)
                     }, 2, noteEvent.time)
                 this.theSequence.push({...noteEvent, eventId})
@@ -31,12 +24,12 @@ class Layer extends React.Component {
             else if (noteEvent.type==="attack") {
                 const eventId = Tone.Transport.scheduleRepeat(() => {
                     if (!this.props.instrument.loaded) {return}
-                    console.log("attack", noteEvent)
                     instrument.triggerAttack(noteEvent.pitch)
                     }, 2, noteEvent.time)
                 this.theSequence.push({...noteEvent, eventId})
             }
         })
+        this.setState({playing: true})
     }
 
     componentDidMount = () => {
@@ -45,6 +38,7 @@ class Layer extends React.Component {
     }
 
     removeSequence = (instrument) => {
+        console.log(instrument)
         this.theSequence.forEach(se => {
             Tone.Transport.clear(se.eventId)
             if (se.type==="attack") {
@@ -52,14 +46,15 @@ class Layer extends React.Component {
             }
         })
         this.theSequence = []
+        this.setState({playing:false})
     }
 
     muteOrUnmuteLayer = () => {
         if (this.state.playing) {
-            this.removeSequence(this.props.instrument)
+            this.removeSequence(this.props.instrument.instrumentObject)
         }
         else {
-            this.addToSequence(this.props.layer, this.props.instrument)
+            this.addToSequence(this.props.layer, this.props.instrument.instrumentObject)
         }
     }
 
@@ -67,7 +62,7 @@ class Layer extends React.Component {
         if (!this.props.instrument.loaded) {
             return "layer-loading"
         }
-        else if (this.state.playing) {
+        if (this.state.playing) {
             return "layer-playing"
         }
         else {
@@ -76,6 +71,7 @@ class Layer extends React.Component {
     }
 
     render() {
+        console.log("re-rendering layer")
         return(
             <li>
                 <div className="layer-li"><button>X</button><span className={this.playStatus()} onClick={this.muteOrUnmuteLayer}>{this.props.layer.id}</span></div>

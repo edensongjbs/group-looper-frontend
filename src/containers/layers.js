@@ -6,13 +6,14 @@ const Layers = (props) => {
     return(
         <ul>
             {props.layers.map( layer => {
-                return <Layer key={layer.id} layer={layer} instrument={props.instruments[layer.id]}/>
+                return <Layer key={layer.id} layer={layer} composition={props.composition} instrument={props.instruments[layer.id]}/>
             })}
         </ul>
     )
 }
 
 const mapStateToProps = (state) => ({
+    composition: state.composition,
     layers: state.layers,
     instruments: state.instruments
 })

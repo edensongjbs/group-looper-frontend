@@ -16,26 +16,40 @@ class TransportControls extends React.Component {
     // Will need to abstract this out
     createMetronomePart = () => {
         const metronomePart = []
-        metronomePart.push({type:"attack", pitch: "C5", time:Tone.now()})
-        metronomePart.push({type:"attack", pitch: "A4", time:Tone.now()+0.5})
-        metronomePart.push({type:"attack", pitch: "A4", time:Tone.now()+1.0})
-        metronomePart.push({type:"attack", pitch: "A4", time:Tone.now()+1.5})
-        metronomePart.push({type:"release", pitch: "C5", time:Tone.now()+0.25})
-        metronomePart.push({type:"release", pitch: "A4", time:Tone.now()+0.75})
-        metronomePart.push({type:"release", pitch: "A4", time:Tone.now()+1.25})
-        metronomePart.push({type:"release", pitch: "A4", time:Tone.now()+1.75})
+        const subDivision = (60.0/this.props.composition.origTempo)
+        console.log(subDivision)
+        let inc = Tone.now()
+        for (let i=1; i <= this.props.composition.numBars; i++) {
+            metronomePart.push({type:"attack", pitch: "C5", time: inc})
+            metronomePart.push({type:"release", pitch: "C5", time: inc+0.25})
+            inc+=subDivision
+            for (let o=2; o <= this.props.composition.timeSigNum; o++) {
+                metronomePart.push({type:"attack", pitch: "A4", time: inc})
+                metronomePart.push({type:"release", pitch: "C5", time: inc+0.25})
+                inc+=subDivision
+            }
+        }
+        // metronomePart.push({type:"attack", pitch: "C5", time:Tone.now()})
+        // metronomePart.push({type:"attack", pitch: "A4", time:Tone.now()+0.5})
+        // metronomePart.push({type:"attack", pitch: "A4", time:Tone.now()+1.0})
+        // metronomePart.push({type:"attack", pitch: "A4", time:Tone.now()+1.5})
+        // metronomePart.push({type:"release", pitch: "C5", time:Tone.now()+0.25})
+        // metronomePart.push({type:"release", pitch: "A4", time:Tone.now()+0.75})
+        // metronomePart.push({type:"release", pitch: "A4", time:Tone.now()+1.25})
+        // metronomePart.push({type:"release", pitch: "A4", time:Tone.now()+1.75})
         this.props.createLayer(metronomePart, "metronome")
+        console.log(metronomePart)
     }
 
     componentDidMount = () => {
-        // Tone.Transport.stop()
-        this.createMetronomePart()
+        console.log(this.props.composition)
+        Tone.Transport.stop()
         Tone.Transport.loop = true
-        Tone.Transport.loopEnd = 2
+        Tone.Transport.bpm.value = this.props.composition.origTempo
+        Tone.Transport.timeSignature = [this.props.composition.timeSigNum, this.props.composition.timeSigDenom]
+        Tone.Transport.loopEnd = `${this.props.composition.numBars}m`
         Tone.Transport.loopStart = 0
-        window.setInterval(() => {
-            console.log(Tone.Transport.now())
-        }, 1000)
+        this.createMetronomePart()
     }
 
     render() {
@@ -50,6 +64,7 @@ class TransportControls extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+    composition: state.composition,
     currentLayer: state.currentLayer,
     playing: state.transport.playing
 })

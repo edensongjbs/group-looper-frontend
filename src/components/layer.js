@@ -13,19 +13,20 @@ class Layer extends React.Component {
     theSequence= []
     
     addToSequence = (layer, instrument) => {
+        const phraseLength = (60/this.props.composition.origTempo)*this.props.composition.timeSigNum*this.props.composition.numBars
         layer.noteEvents.forEach( noteEvent => {
             if (noteEvent.type==="release") {
                 const eventId = Tone.Transport.scheduleRepeat(() => {
                     if (!this.props.instrument.loaded) {return}
                     instrument.triggerRelease(noteEvent.pitch)
-                    }, 2, noteEvent.time)
+                    }, phraseLength, noteEvent.time, phraseLength)
                 this.theSequence.push({...noteEvent, eventId})
             }
             else if (noteEvent.type==="attack") {
                 const eventId = Tone.Transport.scheduleRepeat(() => {
                     if (!this.props.instrument.loaded) {return}
                     instrument.triggerAttack(noteEvent.pitch)
-                    }, 2, noteEvent.time)
+                    }, phraseLength, noteEvent.time, phraseLength)
                 this.theSequence.push({...noteEvent, eventId})
             }
         })

@@ -15,29 +15,32 @@ class KeyboardArea extends React.Component {
     
     playNote = (noteName) => {
         if (!this.props.instrument.loaded) {return}
+        const phraseLength = (60/this.props.composition.origTempo)*this.props.composition.timeSigNum*this.props.composition.numBars
         const synth = this.props.instrument.instrumentObject
         const now = Tone.now()
-        const reallyNow = Tone.context.currentTime
+        const reallyNow = Tone.Transport.immediate()-this.props.transport.timeNow
+        console.log(`scheduling note for ${reallyNow}`)
         synth.triggerAttack(noteName, now)
         if (!this.props.playing) {return} 
-        console.log((now-this.offset)%2)
         const eventId = Tone.Transport.scheduleRepeat(() => {
-            synth.triggerAttack(noteName)
-            }, 2, ((now-this.offset)%2), 2)
-        this.props.addNoteEvent({id: eventId, instrument: synth, type:"attack", pitch: noteName, time:reallyNow%2})
+            console.log(Tone.Transport.immediate())
+            this.props.instrument.instrumentObject.triggerAttack(noteName)
+            }, phraseLength, (reallyNow%phraseLength), phraseLength)
+        this.props.addNoteEvent({id: eventId, instrument: synth, type:"attack", pitch: noteName, time:reallyNow%phraseLength})
     }
     
     releaseNote = (noteName) => {
         if (!this.props.instrument.loaded) {return}
+        const phraseLength = (60/this.props.composition.origTempo)*this.props.composition.timeSigNum*this.props.composition.numBars
         const now = Tone.now()
-        const reallyNow = Tone.context.currentTime
+        const reallyNow = Tone.Transport.immediate()-this.props.transport.timeNow
         const synth = this.props.instrument.instrumentObject
         synth.triggerRelease(noteName, now)
         if (!this.props.playing) {return}
         const eventId = Tone.Transport.scheduleRepeat(() => {
-            synth.triggerRelease(noteName)
-            },  2, ((now-this.offset)%2), 2)
-        this.props.addNoteEvent({id: eventId, instrument: synth, type:"release", pitch: noteName, time:reallyNow%2})
+            this.props.instrument.instrumentObject.triggerRelease(noteName)
+            },  phraseLength, (reallyNow%phraseLength), phraseLength)
+        this.props.addNoteEvent({id: eventId, instrument: synth, type:"release", pitch: noteName, time:reallyNow%phraseLength})
     }
 
 
@@ -74,8 +77,10 @@ class KeyboardArea extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+    composition: state.composition,
     playing: state.transport.playing,
-    instrument: state.instruments.current
+    instrument: state.instruments.current,
+    transport: state.transport
 })
 
 const mapDispatchToProps = (dispatch) => ({

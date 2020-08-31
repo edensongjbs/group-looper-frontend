@@ -1,7 +1,7 @@
 import * as Tone from 'tone'
 // import stopAll
 
-export default (state = {playing: false, timeNow: 0, tempoCoeff:1}, action) => {
+export default (state = {disabled: false, playing: false, timeNow: 0, tempoCoeff:1}, action) => {
     switch (action.type) {
         case 'START_MUSIC':
             Tone.start()
@@ -12,7 +12,12 @@ export default (state = {playing: false, timeNow: 0, tempoCoeff:1}, action) => {
             Tone.Transport.stop(Tone.now())
             console.log(Tone.Transport.now())
             return {playing: false, currentTransportTime: Tone.now()}
+        case 'DISABLE_KEYS':
+            return {...state, disabled:true}
+        case 'ENABLE_KEYS':
+            return {...state, disabled:false}
         default:
             return state
+        
     }
 }

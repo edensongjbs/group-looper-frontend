@@ -10,6 +10,7 @@ class TransportControls extends React.Component {
         const id = uuid()
         this.props.currentInstrumentToNewLayer(id)
         this.props.createLayer(this.props.currentLayer, id, this.props.layerName)
+        this.props.resetLayerName()
         this.props.clearNoteEvents()
     }
 
@@ -84,6 +85,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+    resetLayerName: () => dispatch({type:'RESET_LAYER_NAME'}),
     currentInstrumentToNewLayer: (layerId) => dispatch({type:'CURRENT_INSTRUMENT_TO_NEW_LAYER', layerId}),
     startMusic: () => dispatch({type:'START_MUSIC'}),
     stopMusic: () => dispatch({type:'STOP_MUSIC'}),

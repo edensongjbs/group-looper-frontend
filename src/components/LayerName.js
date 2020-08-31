@@ -12,7 +12,19 @@ class LayerName extends React.Component {
     submitHandler = (e) => {
         e.preventDefault()
         this.props.changeLayerName(this.state.name)
+        this.props.enableKeys()
         this.setState(()=>({editing:false}))
+    }
+
+    doubleClickHandler = (e) => {
+        this.setState(()=>({editing: true}))
+        this.props.disableKeys()
+    }
+
+    componentDidUpdate = (prevProps) => {
+        if (prevProps.layerName !== this.props.layerName) {
+            this.setState({name:this.props.layerName})
+        }
     }
 
     render() {
@@ -22,7 +34,7 @@ class LayerName extends React.Component {
             <form onSubmit={this.submitHandler}>
                 <input type="text" onChange={this.changeHandler} value={this.state.name}/>
             </form> : 
-            <h4 onDoubleClick={() => this.setState(()=>({editing: true}))}>{this.state.name}</h4>}
+            <h4 onDoubleClick={this.doubleClickHandler}>{this.state.name}</h4>}
         </div>
         )
     }
@@ -31,7 +43,9 @@ class LayerName extends React.Component {
 const mapStateToProps = (state) => ({layerName: state.layerName})
 
 const mapDispatchToProps = (dispatch) => ({
-    changeLayerName: (name) => dispatch({type:'CHANGE_LAYER_NAME', name}) 
+    changeLayerName: (name) => dispatch({type:'CHANGE_LAYER_NAME', name}),
+    enableKeys: () => dispatch({type:'ENABLE_KEYS'}),
+    disableKeys: () => dispatch({type:'DISABLE_KEYS'})
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LayerName)

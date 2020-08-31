@@ -72,7 +72,7 @@ class Layer extends React.Component {
     render() {
         return(
             <li>
-                <div className="layer-li"><button>X</button><span className={this.playStatus()} onClick={this.muteOrUnmuteLayer}>{this.props.layer.id}</span></div>
+                <div className="layer-li"><button>X</button><span className={this.playStatus()} onClick={this.muteOrUnmuteLayer}>{this.props.layer.name}</span></div>
             </li>
         )
     }

@@ -14,7 +14,7 @@ class KeyboardArea extends React.Component {
 
     
     playNote = (noteName) => {
-        if (!this.props.instrument.loaded) {return}
+        if (this.props.transport.disabled || !this.props.instrument.loaded) {return}
         const phraseLength = (60/this.props.composition.origTempo)*this.props.composition.timeSigNum*this.props.composition.numBars
         const synth = this.props.instrument.instrumentObject
         const now = Tone.now()
@@ -30,7 +30,7 @@ class KeyboardArea extends React.Component {
     }
     
     releaseNote = (noteName) => {
-        if (!this.props.instrument.loaded) {return}
+        if (this.props.transport.disabled || !this.props.instrument.loaded) {return}
         const phraseLength = (60/this.props.composition.origTempo)*this.props.composition.timeSigNum*this.props.composition.numBars
         const now = Tone.now()
         const reallyNow = Tone.Transport.immediate()-this.props.transport.timeNow
@@ -52,8 +52,6 @@ class KeyboardArea extends React.Component {
 
     componentDidMount = () => {
 
-        // this.synth = loadInstrument(this.props.instrumentName, this).toDestination()
-        // Instrument Loading Moved to Select Instrument Component
         this.eventListeners.push(window.addEventListener("keydown", e => {
             if (e.repeat) {return}
             this.playNote(Global.notes[e.key] || "C4")
@@ -84,8 +82,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    addNoteEvent: (noteEvent) => dispatch({type:'ADD_NOTE_EVENT', noteEvent}),
-    loadInstrument
+    addNoteEvent: (noteEvent) => dispatch({type:'ADD_NOTE_EVENT', noteEvent})
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(KeyboardArea)

@@ -1,9 +1,5 @@
 import SampleLibrary from '../sampler/Tonejs-Instruments'
 
-// export const addLayer = (layer) => {
-//     return {type: 'ADD_LAYER', layer}
-// }
-
 export const loadInstrument = (instrumentName, layerId) => {
     return (dispatch) => {
         let instrumentObject
@@ -17,13 +13,3 @@ export const loadInstrument = (instrumentName, layerId) => {
     }
 }
 
-// export const loadInstrument = (instrumentName, onLoadCallback) => {
-//     if (SampleLibrary.list.includes(instrumentName)) {
-//         const theSound = SampleLibrary.load({instruments:instrumentName, onload:()=> {
-//                 theSound.toDestination()
-//                 onLoadCallback()
-//             }
-//         })
-//         return theSound
-//     }
-// }

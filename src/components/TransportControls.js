@@ -2,13 +2,14 @@ import React from 'react'
 import * as Tone from 'tone'
 import { connect } from 'react-redux'
 import {v4 as uuid} from 'uuid'
+import { loadComposition } from '../actions/load_composition'
 
 class TransportControls extends React.Component {
     
     commitHandler = () => {
         const id = uuid()
         this.props.currentInstrumentToNewLayer(id)
-        this.props.createLayer(this.props.currentLayer, id)
+        this.props.createLayer(this.props.currentLayer, id, this.props.layerName)
         this.props.clearNoteEvents()
     }
 
@@ -37,18 +38,30 @@ class TransportControls extends React.Component {
         // metronomePart.push({type:"release", pitch: "A4", time:Tone.now()+0.75})
         // metronomePart.push({type:"release", pitch: "A4", time:Tone.now()+1.25})
         // metronomePart.push({type:"release", pitch: "A4", time:Tone.now()+1.75})
-        this.props.createLayer(metronomePart, "metronome")
+        this.props.createLayer(metronomePart, "metronome", "metronome", true)
         console.log(metronomePart)
     }
 
-    componentDidMount = () => {
-        console.log(this.props.composition)
+    componentDidUpdate = (prevProps) => {
+        if (prevProps.composition!==this.props.composition){
+            console.log(this.props.composition)
+            this.establishTransportSettings()
+        }
+    }
+
+    establishTransportSettings = () => {
         Tone.Transport.stop()
         Tone.Transport.loop = true
         Tone.Transport.bpm.value = this.props.composition.origTempo
         Tone.Transport.timeSignature = [this.props.composition.timeSigNum, this.props.composition.timeSigDenom]
         Tone.Transport.loopEnd = `${this.props.composition.numBars}m`
         Tone.Transport.loopStart = 0
+    }
+
+    componentDidMount = () => {
+        console.log(this.props.composition)
+        this.establishTransportSettings()
+        this.props.loadComposition(1)
         this.createMetronomePart()
     }
 
@@ -66,7 +79,8 @@ class TransportControls extends React.Component {
 const mapStateToProps = (state) => ({
     composition: state.composition,
     currentLayer: state.currentLayer,
-    playing: state.transport.playing
+    playing: state.transport.playing,
+    layerName: state.layerName
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -74,7 +88,8 @@ const mapDispatchToProps = (dispatch) => ({
     startMusic: () => dispatch({type:'START_MUSIC'}),
     stopMusic: () => dispatch({type:'STOP_MUSIC'}),
     clearNoteEvents: () => dispatch({type:'CLEAR_NOTE_EVENTS'}),
-    createLayer: (layer, layerId) => dispatch({type:'CREATE_LAYER', layer, layerId, callBack: () => dispatch({type: 'CLEAR_NOTE_EVENTS'})}),
+    createLayer: (layer, layerId, layerName, readOnly=false) => dispatch({type:'CREATE_LAYER', layer, layerId, layerName, readOnly}),
+    loadComposition: (compositionId) => dispatch(loadComposition(compositionId))
     // exportNoteEvents: (currentLayer) => dispatch({type:'EXPORT_NOTE_EVENTS', currentLayer}),
 })
 

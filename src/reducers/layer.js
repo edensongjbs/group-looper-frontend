@@ -4,7 +4,6 @@ export default (state = [], action) => {
     switch (action.type) {
         case 'CREATE_LAYER':
             const newLayer = {id: action.layerId, noteEvents: [...action.layer]}
-            console.log(newLayer)
             // soundEvents.forEach(se => {
             //     Tone.Transport.clear(se.id)
             //     })

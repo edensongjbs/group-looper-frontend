@@ -1,10 +1,8 @@
 import {connect} from 'react-redux'
 import React from 'react'
 import Layer from '../components/Layer'
-import * as Tone from 'tone'
 
 const Layers = (props) => {
-    console.log(props)
     return(
         <ul>
             {props.layers.map( layer => {

@@ -28,11 +28,17 @@ class TransportControls extends React.Component {
     }
 
     componentDidMount = () => {
+        // Tone.Transport.stop()
         this.createMetronomePart()
+        Tone.Transport.loop = true
+        Tone.Transport.loopEnd = 2
+        Tone.Transport.loopStart = 0
+        window.setInterval(() => {
+            console.log(Tone.Transport.now())
+        }, 1000)
     }
 
     render() {
-        console.log(this.props.currentLayer)
         return (
         <div className="playback-controls">
             <button onClick={this.props.playing ? this.props.stopMusic : this.props.startMusic}>{this.props.playing ? "Stop" : "Play"}</button>

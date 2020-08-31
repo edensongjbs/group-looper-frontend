@@ -33,12 +33,10 @@ class Layer extends React.Component {
     }
 
     componentDidMount = () => {
-        console.log(this.props)
         this.addToSequence(this.props.layer, this.props.instrument.instrumentObject)
     }
 
     removeSequence = (instrument) => {
-        console.log(instrument)
         this.theSequence.forEach(se => {
             Tone.Transport.clear(se.eventId)
             if (se.type==="attack") {
@@ -71,7 +69,6 @@ class Layer extends React.Component {
     }
 
     render() {
-        console.log("re-rendering layer")
         return(
             <li>
                 <div className="layer-li"><button>X</button><span className={this.playStatus()} onClick={this.muteOrUnmuteLayer}>{this.props.layer.id}</span></div>

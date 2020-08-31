@@ -1,5 +1,4 @@
 import * as Tone from 'tone'
-import SampleLibrary from '../sampler/Tonejs-Instruments'
 
 Tone.context.lookAhead=0.01
 Tone.context.updateInterval=0.001

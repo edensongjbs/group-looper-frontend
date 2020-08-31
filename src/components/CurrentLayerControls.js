@@ -8,7 +8,6 @@ class CurrentLayerControls extends React.Component {
     allOptions = () => SampleLibrary.list.map((instrumentName, index) => <option key={index} value={instrumentName}>{instrumentName}</option>)
 
     selectNewInstrument = (e) => {
-        console.log(e.target)
         e.target.blur()
         this.props.loadInstrument(e.target.value, "current")
     }

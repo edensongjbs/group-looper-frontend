@@ -1,9 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import * as Tone from 'tone'
-import {connect} from 'react-redux'
-import { v4 as uuid } from 'uuid'
 import Header from './containers/Header'
 import TransportBar from './containers/TransportBar'
 import KeyboardArea from './containers/KeyboardArea'

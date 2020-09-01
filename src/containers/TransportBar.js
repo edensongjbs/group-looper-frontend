@@ -9,7 +9,6 @@ import { connect } from 'react-redux'
 
 class TransportBar extends React.Component {
     render() {
-        console.log(this.props)
         return(
 
             // this.props.loaded ?

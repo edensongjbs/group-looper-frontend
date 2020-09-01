@@ -9,7 +9,6 @@ export default (state = [], action) => {
             return []
         case 'EXPORT_NOTE_EVENTS':
             // action.newLayerFunction(state)
-            console.log(state)
             // disconnect notes manually
             return []
         default:

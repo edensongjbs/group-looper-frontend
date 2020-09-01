@@ -10,7 +10,6 @@ class CompositionLoader extends React.Component {
     createMetronomePart = () => {
         const metronomePart = []
         const subDivision = (60.0/this.props.composition.origTempo)
-        console.log(subDivision)
         let inc = Tone.now()
         for (let i=1; i <= this.props.composition.numBars; i++) {
             metronomePart.push({type:"attack", pitch: "C5", time: inc})
@@ -23,7 +22,6 @@ class CompositionLoader extends React.Component {
             }
         }
         this.props.createLayer(metronomePart, "metronome", "metronome", this.props.composition.id, "woodblock", true)
-        console.log(metronomePart)
     }
 
     // componentDidUpdate = (prevProps) => {
@@ -36,7 +34,6 @@ class CompositionLoader extends React.Component {
     // }
 
     establishTransportSettings = (tempo, timeSigNum, timeSigDenom, numBars) => {
-        console.log('establishing trasnport settings', tempo, timeSigNum, timeSigDenom, numBars)
         Tone.Transport.stop()
         Tone.Transport.loop = true
         Tone.Transport.bpm.value = tempo
@@ -60,19 +57,16 @@ class CompositionLoader extends React.Component {
 
     componentDidMount = () => {
         
-        console.log(this.props)
         if (this.props.compositionId === "new"){
             this.establishTransportSettings(this.props.composition.origTempo, this.props.composition.timeSigNum, this.props.composition.timeSigDenom, this.props.composition.numBars)
             this.createMetronomePart()
             // create new metnroome part and new session
         }
         else if (!this.props.compositionId){
-            console.log('NO COMPOOSITION ID')
             this.establishTransportSettings(this.props.composition.origTempo, this.props.composition.timeSigNum, this.props.composition.timeSigDenom, this.props.composition.numBars)
             this.createMetronomePart()
         } 
         else {
-            console.log(this.props.composition)
             this.props.loadComposition(this.props.compositionId, this.establishTransportSettings)
         }
     }

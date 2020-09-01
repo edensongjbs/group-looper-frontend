@@ -19,11 +19,9 @@ class KeyboardArea extends React.Component {
         const synth = this.props.instrument.instrumentObject
         const now = Tone.now()
         const reallyNow = Tone.Transport.immediate()-this.props.transport.timeNow
-        console.log(`scheduling note for ${reallyNow}`)
         synth.triggerAttack(noteName, now)
         if (!this.props.playing) {return} 
         const eventId = Tone.Transport.scheduleRepeat(() => {
-            console.log(Tone.Transport.immediate())
             this.props.instrument.instrumentObject.triggerAttack(noteName)
             }, phraseLength, (reallyNow%phraseLength), phraseLength)
         this.props.addNoteEvent({id: eventId, instrument: synth, type:"attack", pitch: noteName, time:reallyNow%phraseLength})

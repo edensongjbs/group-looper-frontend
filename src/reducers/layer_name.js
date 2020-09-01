@@ -5,7 +5,6 @@ export default (state="Enter Layer Name", action) => {
         case 'CHANGE_LAYER_NAME':
             return action.name.length > 0 ? action.name : state
         case 'RESET_LAYER_NAME':
-            console.log('resetting layer name')
             return 'Enter Layer Name'
         default :
             return state

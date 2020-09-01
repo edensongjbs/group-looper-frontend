@@ -34,7 +34,6 @@ class Layer extends React.Component {
     }
 
     componentDidMount = () => {
-        console.log('adding to sequence:', this.props.layer, this.props.instrument.instrumentObject)
         this.addToSequence(this.props.layer, this.props.instrument.instrumentObject)
     }
 
@@ -59,7 +58,6 @@ class Layer extends React.Component {
     }
 
     playStatus = () => {
-        console.log(this.props)
         if (!this.props.instrument.loaded) {
             return "layer-loading"
         }

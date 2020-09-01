@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { createStore, applyMiddleware, compose } from 'redux'
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import thunk from 'redux-thunk'
 import {Provider} from 'react-redux'
 import rootReducer from './reducers/root'
@@ -32,13 +32,16 @@ const store = createStore(rootReducer, composeEnhancer(applyMiddleware(thunk)))
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
+    
       <Router>
-        <Route exact path="/" render={() => <App />}/>
-        {/* <Route exact path="/compositions/new" render={() => <App />}/> */}
-        <Route exact path="/compositions/:id" render={(routerProps) => <App id={routerProps.match.params.id}/>}/>
+        <Switch>
+        <Route path="/compositions/:id" render={() => <Provider store={store}><App/></Provider>}/>
+        <Route path="/" render={() => <Provider store={store}><App/></Provider>}/>
+        <Route path="/compositions" render={() => <Provider store={store}><App/></Provider>}/>
+        
+        </Switch>
       </Router>
-    </Provider>
+    
   </React.StrictMode>,
   document.getElementById('root')
 );

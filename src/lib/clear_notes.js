@@ -1,7 +1,6 @@
 import * as Tone from 'tone'
 
 export const clearNotes = (noteArray) => {
-    console.log("clearing", noteArray)
     noteArray.forEach(note => {
         Tone.Transport.clear(note.id)
     })

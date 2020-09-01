@@ -9,7 +9,6 @@ export const loadInstrument = (instrumentName, layerId) => {
                 }
             })
         }
-        console.log(instrumentName, instrumentObject, layerId)
         dispatch({type: 'START_LOADING_INSTRUMENT', instrumentName, instrumentObject, layerId })
     }
 }

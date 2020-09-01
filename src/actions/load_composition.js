@@ -2,13 +2,11 @@ import { loadInstrument } from './instrument'
 
 export const loadComposition = (compositionId, transportCallback) => {
     const url = `http://localhost:3000/compositions/${compositionId}`
-    console.log(url)
     return (dispatch) => {
         dispatch({type:'START_LOADING_COMPOSITION'})
         fetch(url)
         .then(res => res.json())
         .then(json => {
-            console.log(json)
             transportCallback(json.origTempo, json.timeSigNum, json.timeSigDenom, json.numBars)
             json.layers.forEach(layer => {
                 dispatch(loadInstrument(layer.instrumentName, layer.id))

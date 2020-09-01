@@ -20,13 +20,11 @@ export const createLayer = (layer, layerId, layerName, compositionId, instrument
         body:JSON.stringify(layerObj)
     }
     return (dispatch) => {
-        console.log('inside dispatch')
         dispatch({type:'CREATE_LAYER', layer, layerId, layerName, readOnly})
         dispatch({type:'CLEAR_NOTE_EVENTS'})
         fetch(url, configObj)
         .then(res => res.json())
         .then(json => {
-            console.log(json)
             dispatch({type:'UPDATE_INSTRUMENT_KEY', oldId: json.oldId, newId:json.newId})
             // dispatch({type: 'REMOVE_INSTRUMENT', layerId:json.oldId})
             dispatch({type:'UPDATE_LAYER_AFTER_POST', oldId: json.oldId, newId:json.newId})})

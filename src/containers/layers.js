@@ -1,16 +1,24 @@
 import {connect} from 'react-redux'
-import React from 'react'
+import React, { Component } from 'react'
 import Layer from '../components/Layer'
 
-const Layers = (props) => {
-    return(
-        <ul>
-            {props.layers.map( layer => {
-                return <Layer key={layer.id} layer={layer} composition={props.composition} instrument={props.instruments[layer.id]}/>
-            })}
-        </ul>
-    )
+class Layers extends React.Component {
+    // componentDidUpdate = (prevProps) => {
+    //     console.log('previous layer props...', prevProps)
+    //     console.log('current layer props...', this.props)
+    // }
+    render() {
+        return(
+            <ul>
+                {this.props.layers.map( layer => {
+                    return <Layer key={layer.id} layer={layer} composition={this.props.composition} instrument={this.props.instruments[layer.id]}/>
+                })}
+            </ul>
+        )
+    }
 }
+
+
 
 const mapStateToProps = (state) => ({
     composition: state.composition,

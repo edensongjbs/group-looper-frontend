@@ -3,15 +3,16 @@ import * as Tone from 'tone'
 import { connect } from 'react-redux'
 import {v4 as uuid} from 'uuid'
 import { loadComposition } from '../actions/load_composition'
+import { createLayer } from '../actions/create_layer'
 
 class TransportControls extends React.Component {
     
     commitHandler = () => {
         const id = uuid()
         this.props.currentInstrumentToNewLayer(id)
-        this.props.createLayer(this.props.currentLayer, id, this.props.layerName)
+        this.props.createLayer(this.props.currentLayer, id, this.props.layerName, this.props.composition.id, this.props.currentInstrument)
         this.props.resetLayerName()
-        this.props.clearNoteEvents()
+        // this.props.clearNoteEvents()
     }
 
 
@@ -31,15 +32,7 @@ class TransportControls extends React.Component {
                 inc+=subDivision
             }
         }
-        // metronomePart.push({type:"attack", pitch: "C5", time:Tone.now()})
-        // metronomePart.push({type:"attack", pitch: "A4", time:Tone.now()+0.5})
-        // metronomePart.push({type:"attack", pitch: "A4", time:Tone.now()+1.0})
-        // metronomePart.push({type:"attack", pitch: "A4", time:Tone.now()+1.5})
-        // metronomePart.push({type:"release", pitch: "C5", time:Tone.now()+0.25})
-        // metronomePart.push({type:"release", pitch: "A4", time:Tone.now()+0.75})
-        // metronomePart.push({type:"release", pitch: "A4", time:Tone.now()+1.25})
-        // metronomePart.push({type:"release", pitch: "A4", time:Tone.now()+1.75})
-        this.props.createLayer(metronomePart, "metronome", "metronome", true)
+        this.props.createLayer(metronomePart, "metronome", "metronome", this.props.composition.id, "woodblock", true)
         console.log(metronomePart)
     }
 
@@ -71,13 +64,14 @@ class TransportControls extends React.Component {
         <div className="playback-controls">
             <button onClick={this.props.playing ? this.props.stopMusic : this.props.startMusic}>{this.props.playing ? "Stop" : "Play"}</button>
             <button onClick={this.commitHandler}>Commit</button>
-            <button>Clear</button>
+            <button onClick={this.props.clearNoteEvents}>Clear</button>
         </div>
         )
     }
 }
 
 const mapStateToProps = (state) => ({
+    currentInstrument: state.instruments.current.name,
     composition: state.composition,
     currentLayer: state.currentLayer,
     playing: state.transport.playing,
@@ -90,7 +84,7 @@ const mapDispatchToProps = (dispatch) => ({
     startMusic: () => dispatch({type:'START_MUSIC'}),
     stopMusic: () => dispatch({type:'STOP_MUSIC'}),
     clearNoteEvents: () => dispatch({type:'CLEAR_NOTE_EVENTS'}),
-    createLayer: (layer, layerId, layerName, readOnly=false) => dispatch({type:'CREATE_LAYER', layer, layerId, layerName, readOnly}),
+    createLayer: (layer, layerId, layerName, compositionId, instrumentName, readOnly=false) => dispatch(createLayer(layer, layerId, layerName, compositionId, instrumentName, readOnly)),
     loadComposition: (compositionId) => dispatch(loadComposition(compositionId))
     // exportNoteEvents: (currentLayer) => dispatch({type:'EXPORT_NOTE_EVENTS', currentLayer}),
 })

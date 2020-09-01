@@ -58,6 +58,7 @@ class Layer extends React.Component {
     }
 
     playStatus = () => {
+        console.log(this.props)
         if (!this.props.instrument.loaded) {
             return "layer-loading"
         }

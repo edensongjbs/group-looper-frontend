@@ -9,6 +9,8 @@ export default (state = [], action) => {
             //     })
             // action.callBack()
             return [...state, newLayer]
+        case 'UPDATE_LAYER_AFTER_POST':
+            return state.map(layer => layer.id === action.oldId ? {...layer, id: action.newId} : layer)
         default:
             return state
     }

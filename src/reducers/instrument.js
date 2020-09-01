@@ -11,6 +11,10 @@ export default (state = {current:{loaded:false}}, action) => {
         case 'CURRENT_INSTRUMENT_TO_NEW_LAYER':
             theInstrument = {...state.current}
             return {...state, [action.layerId]:theInstrument}
+        case 'UPDATE_INSTRUMENT_KEY':
+            theInstrument = {...state[action.oldId]}
+            console.log(state[action.newId])
+            return {...state, [action.newId]:theInstrument}
         case 'REMOVE_INSTRUMENT': //should be invoked when a layer is deleted
             delete state[action.layerId]
             return state

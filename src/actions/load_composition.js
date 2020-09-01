@@ -2,6 +2,7 @@ import { loadInstrument } from './instrument'
 
 export const loadComposition = (compositionId) => {
     const url = `http://localhost:3000/compositions/${compositionId}`
+    console.log(url)
     return (dispatch) => {
         dispatch({type:'START_LOADING_COMPOSITION'})
         fetch(url)
@@ -13,5 +14,6 @@ export const loadComposition = (compositionId) => {
                 dispatch({type:'CREATE_LAYER', layer: JSON.parse(layer.layerString), layerId: layer.id, layerName: layer.layerName, readOnly: layer.readOnly})
             })
             dispatch({type:'FINISH_LOADING_COMPOSITION', composition:json})})
+            dispatch({type:'FINISH_LOADING'})
     }
 }

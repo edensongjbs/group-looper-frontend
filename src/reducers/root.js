@@ -4,9 +4,10 @@ import transport from './transport'
 import currentLayer from './current_layer'
 import composition from './composition.js'
 import layerName from './layer_name.js'
+import session from './session'
 import { combineReducers } from 'redux'
 
 
 export default combineReducers({
-    layers, instruments, transport, currentLayer, composition, layerName
+    layers, instruments, transport, currentLayer, composition, layerName, session
 })

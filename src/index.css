@@ -39,8 +39,15 @@ code {
 .transport {
   background-color: #111;
   min-height: 125px;
+}
+
+.transport.loaded {
   display: grid;
   grid-template: auto 1fr / 1fr 1fr 1fr;
+}
+
+.transport.unloaded {
+  color:orange;
 }
 
 .song-title {

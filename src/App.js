@@ -13,15 +13,15 @@ class App extends React.Component {
   // Tone.start()
   // Tone.Transport.start()
 
-  componentDidUpdate = () => {
-    console.log('updating composition')
-    this.props.updateComposition(this.props.id)
-  }
+  // componentDidUpdate = () => {
+  //   console.log('updating composition', this.props.id)
+  //   this.props.updateComposition(this.props.id)
+  // }
 
-  componentDidMount = () => {
-    console.log('updating composition')
-    this.props.updateComposition(this.props.id)
-  }
+  // componentDidMount = () => {
+  //   console.log('mounting composition', this.props.id)
+  //   this.props.updateComposition(this.props.id)
+  // }
 
 
   render() {
@@ -29,9 +29,9 @@ class App extends React.Component {
     return (
       <div className="wrapper">
         <Header/>
-        <TransportBar/>
-        <KeyboardArea/>
-        <Sidebar/>
+        <TransportBar id={this.props.id}/>
+        <KeyboardArea id={this.props.id}/>
+        <Sidebar id={this.props.id}/>
         <Footer/>
       </div>
     )

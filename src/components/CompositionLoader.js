@@ -26,21 +26,22 @@ class CompositionLoader extends React.Component {
         console.log(metronomePart)
     }
 
-    componentDidUpdate = (prevProps) => {
-        console.log(prevProps, this.props)
-        if (prevProps.composition!==this.props.composition){
-            console.log(this.props.composition)
-            this.establishTransportSettings()
-        }
-        // if (prevProps.composition)
-    }
+    // componentDidUpdate = (prevProps) => {
+    //     console.log(prevProps, this.props)
+    //     if (prevProps.composition!==this.props.composition){
+    //         console.log(this.props.composition)
+    //         this.establishTransportSettings()
+    //     }
+    //     // if (prevProps.composition)
+    // }
 
-    establishTransportSettings = () => {
+    establishTransportSettings = (tempo, timeSigNum, timeSigDenom, numBars) => {
+        console.log('establishing trasnport settings', tempo, timeSigNum, timeSigDenom, numBars)
         Tone.Transport.stop()
         Tone.Transport.loop = true
-        Tone.Transport.bpm.value = this.props.composition.origTempo
-        Tone.Transport.timeSignature = [this.props.composition.timeSigNum, this.props.composition.timeSigDenom]
-        Tone.Transport.loopEnd = `${this.props.composition.numBars}m`
+        Tone.Transport.bpm.value = tempo
+        Tone.Transport.timeSignature = [timeSigNum, timeSigDenom]
+        Tone.Transport.loopEnd = `${numBars}m`
         Tone.Transport.loopStart = 0
     }
 
@@ -59,14 +60,20 @@ class CompositionLoader extends React.Component {
 
     componentDidMount = () => {
         
-        this.establishTransportSettings()
+        console.log(this.props)
         if (this.props.compositionId === "new"){
+            this.establishTransportSettings(this.props.composition.origTempo, this.props.composition.timeSigNum, this.props.composition.timeSigDenom, this.props.composition.numBars)
             this.createMetronomePart()
             // create new metnroome part and new session
+        }
+        else if (!this.props.compositionId){
+            console.log('NO COMPOOSITION ID')
+            this.establishTransportSettings(this.props.composition.origTempo, this.props.composition.timeSigNum, this.props.composition.timeSigDenom, this.props.composition.numBars)
+            this.createMetronomePart()
         } 
         else {
             console.log(this.props.composition)
-            this.props.loadComposition(this.props.compositionId)
+            this.props.loadComposition(this.props.compositionId, this.establishTransportSettings)
         }
     }
 
@@ -91,7 +98,7 @@ const mapDispatchToProps = (dispatch) => ({
     // stopMusic: () => dispatch({type:'STOP_MUSIC'}),
     // clearNoteEvents: () => dispatch({type:'CLEAR_NOTE_EVENTS'}),
     createLayer: (layer, layerId, layerName, compositionId, instrumentName, readOnly=false) => dispatch(createLayer(layer, layerId, layerName, compositionId, instrumentName, readOnly)),
-    loadComposition: (compositionId) => dispatch(loadComposition(compositionId))
+    loadComposition: (compositionId, transportCallback) => dispatch(loadComposition(compositionId, transportCallback))
     // exportNoteEvents: (currentLayer) => dispatch({type:'EXPORT_NOTE_EVENTS', currentLayer}),
 })
 

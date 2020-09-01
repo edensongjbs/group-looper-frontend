@@ -14,7 +14,7 @@ class KeyboardArea extends React.Component {
 
     
     playNote = (noteName) => {
-        // if (this.props.transport.disabled || !this.props.instrument.loaded) {return}
+        if (this.props.transport.disabled || !this.props.instrument.loaded) {return}
         const phraseLength = (60/this.props.composition.origTempo)*this.props.composition.timeSigNum*this.props.composition.numBars
         const synth = this.props.instrument.instrumentObject
         const now = Tone.now()
@@ -30,7 +30,7 @@ class KeyboardArea extends React.Component {
     }
     
     releaseNote = (noteName) => {
-        // if (this.props.transport.disabled || !this.props.instrument.loaded) {return}
+        if (this.props.transport.disabled || !this.props.instrument.loaded) {return}
         const phraseLength = (60/this.props.composition.origTempo)*this.props.composition.timeSigNum*this.props.composition.numBars
         const now = Tone.now()
         const reallyNow = Tone.Transport.immediate()-this.props.transport.timeNow

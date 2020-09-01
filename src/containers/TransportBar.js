@@ -9,9 +9,12 @@ import { connect } from 'react-redux'
 
 class TransportBar extends React.Component {
     render() {
+        console.log(this.props)
         return(
+
             // this.props.loaded ?
                 <div className="transport loaded">
+                    <CompositionLoader compositionId={this.props.id}/>
                     <SongTitle/>
                     <LayerName/>
                     <TransportControls/>
@@ -30,7 +33,7 @@ class TransportBar extends React.Component {
 
 const mapStateToProps = (state) => ({
     loaded: state.session.loaded,
-    compositionId: state.session.compositionId
+    // compositionId: state.session.compositionId
 })
 
 export default connect(mapStateToProps)(TransportBar)

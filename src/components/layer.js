@@ -13,6 +13,7 @@ class Layer extends React.Component {
     theSequence= []
     
     addToSequence = (layer, instrument) => {
+        console.log(this.props.composition.origTempo)
         const phraseLength = (60/this.props.composition.origTempo)*this.props.composition.timeSigNum*this.props.composition.numBars
         layer.noteEvents.forEach( noteEvent => {
             if (noteEvent.type==="release") {
@@ -54,11 +55,25 @@ class Layer extends React.Component {
         this.removeSequence(this.props.instrument.instrumentObject)
     }
 
-    // componentDidUpdate = (null, prevState) => {
-    //     if (this.state.playing !== prevState.playing) {
-    //         if prev
-    //     }
-    // }
+    componentDidUpdate = (prevProps) => {
+        //This will need some more work!!!
+        if (this.props.transportPlaying !== prevProps.transportPlaying) {
+            console.log('playing status changed')
+            if (this.state.playing){
+                if (this.theSequence.length > 0) {
+                    this.removeSequence(this.props.instrument.instrumentObject)
+                }
+                this.addToSequence(this.props.layer, this.props.instrument.instrumentObject)
+            }
+            else {
+                this.removeSequence(this.props.instrument.instrumentObject)
+            }
+        }
+        if (this.props.composition !== prevProps.composition) {
+            this.removeSequence(this.props.instrument.instrumentObject)
+            this.addToSequence(this.props.layer, this.props.instrument.instrumentObject)
+        }
+    }
 
     muteOrUnmuteLayer = () => {
         if (this.state.playing) {

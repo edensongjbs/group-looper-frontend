@@ -11,7 +11,7 @@ class Layers extends React.Component {
         return(
             <ul>
                 {this.props.layers.map( layer => {
-                    return <Layer key={layer.id} layer={layer} composition={this.props.composition} instrument={this.props.instruments[layer.id]}/>
+                    return <Layer key={layer.id} layer={layer} transportPlaying={this.props.playing} composition={this.props.composition} instrument={this.props.instruments[layer.id]}/>
                 })}
             </ul>
         )
@@ -21,6 +21,7 @@ class Layers extends React.Component {
 
 
 const mapStateToProps = (state) => ({
+    playing: state.transport.playing,
     composition: state.composition,
     layers: state.layers,
     instruments: state.instruments

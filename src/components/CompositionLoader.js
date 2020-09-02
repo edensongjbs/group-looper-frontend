@@ -88,6 +88,7 @@ class CompositionLoader extends React.Component {
         else {
             // console.log(this.props.compositionId)
             this.props.loadComposition(this.props.compositionId, establishTransportSettings)
+            // this.props.finishLoading()
         }
     }
 

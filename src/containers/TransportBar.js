@@ -6,12 +6,14 @@ import LayerName from '../components/LayerName'
 import SongTitle from '../components/SongTitle'
 import CompositionLoader from '../components/CompositionLoader'
 import { connect } from 'react-redux'
+import CompositionWebSocket from '../components/CompositionWebSocket'
 
 class TransportBar extends React.Component {
     render() {
         return(
             <div className={this.props.loaded ? "transport loaded" : "transport unloaded"}>
                 <CompositionLoader compositionId={this.props.id}/>
+                <CompositionWebSocket/>
                 {this.props.loaded ?
                     <>
                         <SongTitle/>

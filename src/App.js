@@ -23,6 +23,10 @@ class App extends React.Component {
   //   this.props.updateComposition(this.props.id)
   // }
 
+  componentDidMount() {
+    this.props.establishCableApp(this.props.cableApp)
+  }
+
 
   render() {
     // console.log(this.props.id)
@@ -43,7 +47,8 @@ class App extends React.Component {
 // }
 
 const mapDispatchToProps = (dispatch) => ({
-  updateComposition: (compositionId) => dispatch({type:'UPDATE_COMPOSITION', compositionId})
+  updateComposition: (compositionId) => dispatch({type:'UPDATE_COMPOSITION', compositionId}),
+  establishCableApp: (cableApp) => dispatch({type:'ESTABLISH_CABLE_APP', cableApp})
 })
 
 // const mapStateToProps = (state) => ({

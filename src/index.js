@@ -8,6 +8,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import thunk from 'redux-thunk'
 import {Provider} from 'react-redux'
 import rootReducer from './reducers/root'
+import actionCable from 'actioncable'
 // import * as Tone from 'tone'
 
 // const sampler = new Tone.Sampler({
@@ -25,6 +26,9 @@ const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const store = createStore(rootReducer, composeEnhancer(applyMiddleware(thunk)))
 
+const CableApp = {}
+
+CableApp.cable = actionCable.createConsumer('ws://localhost:3000/cable')
 // const store = createStore(
 //   shoppingListItemReducer,
 //   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
@@ -37,7 +41,7 @@ ReactDOM.render(
         <Switch>
         {/* <Route exact path="/compositions/:id" render={() => <Provider store={store}><App/></Provider>}/> */}
         <Route exact path="/" render={() => <App/>}/>
-        <Route exact path="/:id" render={(browserProps) => <App id={browserProps.match.params.id}/>}/>
+        <Route exact path="/:id" render={(browserProps) => <App cableApp={CableApp} id={browserProps.match.params.id}/>}/>
         
         </Switch>
       </Router>

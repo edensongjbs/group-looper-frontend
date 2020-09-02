@@ -18,13 +18,13 @@ class NewCompositionForm extends React.Component {
         return(
             <div type="new-comp=form">
                 <form onSubmit={this.submitHandler}>
-                    <label for="title" >Name</label>
+                    <label htmlFor="title" >Name</label>
                     <input onChange={this.changeHandler} type="text" name="title" placeholder="A Glorious New Work" value={this.state.name}/><br/><br/>
-                    <label for="origTempo">Tempo</label>
+                    <label htmlFor="origTempo">Tempo</label>
                     <input onChange={this.changeHandler} type="number" step="0.5" name="origTempo" value={this.state.tempo}/><br/><br/>
-                    <label for="numBars">Number of Bars</label>
+                    <label htmlFor="numBars">Number of Bars</label>
                     <input onChange={this.changeHandler} type="number" name="numBars" value={this.state.numBars}/><br/><br/>
-                    <label for="timeSigNum">Beats per Bar</label>
+                    <label htmlFor="timeSigNum">Beats per Bar</label>
                     <input onChange={this.changeHandler} type="number" name="timeSigNum" value={this.state.timeSigNum}/><br/><br/>
                     <input type="submit"/>
                 </form>

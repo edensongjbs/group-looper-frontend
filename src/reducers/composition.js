@@ -4,9 +4,10 @@ export default (state = {title: "Composition Name", origTempo:120.0, numBars: 2,
         case 'START_LOADING_COMPOSITION':
             return {...state, loading: true}
         case 'FINISH_LOADING_COMPOSITION':
+            console.log(action.composition)
             return {...action.composition, loading: false}
         case 'ADD_ID_TO_COMPOSITION':
-            return {...action.composition, id:action.id}
+            return {...state, id:action.id}
         default:
             return state
     }

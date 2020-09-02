@@ -28,6 +28,7 @@ export const createNewComposition = (composition) => {
         .then(json => {
             dispatch({type:'ADD_ID_TO_COMPOSITION', id:json.id})
             dispatch({type:'FINISH_LOADING'})
+            dispatch({type:'TRIGGER_METRONOME_CONSTRUCTION'})
         })
     }
 }

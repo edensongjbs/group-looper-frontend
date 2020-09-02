@@ -11,8 +11,7 @@ class CompositionLoader extends React.Component {
     createMetronomePart = () => {
         const metronomePart = []
         const subDivision = (60.0/this.props.composition.origTempo)
-        // let inc = Tone.now()
-        let inc = 0.00
+        let inc = Tone.now()
         for (let i=1; i <= this.props.composition.numBars; i++) {
             metronomePart.push({type:"attack", pitch: "C5", time: inc})
             metronomePart.push({type:"release", pitch: "C5", time: inc+0.25})
@@ -23,7 +22,6 @@ class CompositionLoader extends React.Component {
                 inc+=subDivision
             }
         }
-        console.log('created this metronome part:', metronomePart)
         this.props.createLayer(metronomePart, "metronome", "metronome", this.props.composition.id, "woodblock", true)
     }
 
@@ -55,16 +53,11 @@ class CompositionLoader extends React.Component {
         if (this.props.session.loaded !== prevProps.session.loaded){
             if (!this.props.compositionId){
                 establishTransportSettings(this.props.composition.origTempo, this.props.composition.timeSigNum, this.props.composition.timeSigDenom, this.props.composition.numBars)
-                return
+                this.createMetronomePart()
             }
             else if (this.props.compositionId === "new"){
                 this.createMetronomePart()
-                return
             }
-        }
-        if ((this.props.session.createMetronome !== prevProps.session.createMetronome) && this.props.session.createMetronome) {
-            this.createMetronomePart()
-            this.props.endMetronomeCreation()
         }
         
     }
@@ -74,7 +67,7 @@ class CompositionLoader extends React.Component {
         if (this.props.compositionId === "new"){
             if (!this.props.session.loaded){return}
             // establishTransportSettings(this.props.composition.origTempo, this.props.composition.timeSigNum, this.props.composition.timeSigDenom, this.props.composition.numBars)
-            // this.createMetronomePart()
+            this.createMetronomePart()
             // create new metnroome part and new session
         }
         else if (!this.props.compositionId){
@@ -111,7 +104,6 @@ const mapDispatchToProps = (dispatch) => ({
     // startMusic: () => dispatch({type:'START_MUSIC'}),
     // stopMusic: () => dispatch({type:'STOP_MUSIC'}),
     // clearNoteEvents: () => dispatch({type:'CLEAR_NOTE_EVENTS'}),
-    endMetronomeCreation: () => dispatch({type:'END_METRONOME_CREATION'}),
     finishLoading: () => dispatch({type:'FINISH_LOADING'}),
     createLayer: (layer, layerId, layerName, compositionId, instrumentName, readOnly=false) => dispatch(createLayer(layer, layerId, layerName, compositionId, instrumentName, readOnly)),
     loadComposition: (compositionId, transportCallback) => dispatch(loadComposition(compositionId, transportCallback))

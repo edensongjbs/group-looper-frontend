@@ -5,10 +5,10 @@ import { establishTransportSettings } from '../lib/establish_transport_settings'
 export const createNewComposition = (composition) => {
     const url = `http://localhost:3000/compositions/`
     const userId = 1 //pass in User ID.  This is just temporary hard coding
-    
+    console.log('logging composition param at start of reducer:',composition)
     const compositionObj = {
-        name: composition.name,
-        tempo: composition.tempo,
+        name: composition.title,
+        tempo: composition.origTempo,
         creator_id: userId,
         num_bars: composition.numBars,
         time_sig_num: composition.timeSigNum,
@@ -22,6 +22,7 @@ export const createNewComposition = (composition) => {
     }
     return (dispatch) => {
         establishTransportSettings(composition.origTempo, composition.timeSigNum, composition.timeSigDenom, composition.numBars)
+        console.log('logging composition from within reducer', compositionObj)
         dispatch({type:'FINISH_LOADING_COMPOSITION', composition})
         fetch(url, configObj)
         .then(res => res.json())

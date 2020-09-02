@@ -48,6 +48,18 @@ class Layer extends React.Component {
         this.setState({playing:false})
     }
 
+    componentWillUnmount = () => {
+        // can probably include extra cleanup login in here?
+        console.log('unmounting layer')
+        this.removeSequence(this.props.instrument.instrumentObject)
+    }
+
+    // componentDidUpdate = (null, prevState) => {
+    //     if (this.state.playing !== prevState.playing) {
+    //         if prev
+    //     }
+    // }
+
     muteOrUnmuteLayer = () => {
         if (this.state.playing) {
             this.removeSequence(this.props.instrument.instrumentObject)

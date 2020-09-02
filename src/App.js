@@ -25,6 +25,7 @@ class App extends React.Component {
 
 
   render() {
+    // console.log(this.props.id)
     return (
       <div className="wrapper">
         <Header/>

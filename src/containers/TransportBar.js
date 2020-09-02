@@ -10,22 +10,20 @@ import { connect } from 'react-redux'
 class TransportBar extends React.Component {
     render() {
         return(
-
-            // this.props.loaded ?
-                <div className="transport loaded">
-                    <CompositionLoader compositionId={this.props.id}/>
-                    <SongTitle/>
-                    <LayerName/>
-                    <TransportControls/>
-                    <TempoMeterInfo/>
-                    <CurrentLayerControls/>
-                </div> 
-                // :
-                // <div className="transport unloaded">
-                    // {/* <FormTitle/> */}
-                    // <h1>Title of the Form</h1>
-                    // {this.props.compositionId ? <CompositionLoader compositionId={this.props.compositionId}/> : "Not Here!!!"}
-                // </div>
+            <div className={this.props.loaded ? "transport loaded" : "transport unloaded"}>
+                <CompositionLoader compositionId={this.props.id}/>
+                {this.props.loaded ?
+                    <>
+                        <SongTitle/>
+                        <LayerName/>
+                        <TransportControls/>
+                        <TempoMeterInfo/>
+                        <CurrentLayerControls/>
+                    </>
+                :
+                    <h1>New Composition Form</h1>
+                }
+            </div>
         )
     }
 }

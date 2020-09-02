@@ -32,16 +32,16 @@ const store = createStore(rootReducer, composeEnhancer(applyMiddleware(thunk)))
 
 ReactDOM.render(
   <React.StrictMode>
-    
+      <Provider store={store}>
       <Router>
         <Switch>
-        <Route path="/compositions/:id" render={() => <Provider store={store}><App/></Provider>}/>
-        <Route path="/" render={() => <Provider store={store}><App/></Provider>}/>
-        <Route path="/compositions" render={() => <Provider store={store}><App/></Provider>}/>
+        {/* <Route exact path="/compositions/:id" render={() => <Provider store={store}><App/></Provider>}/> */}
+        <Route exact path="/" render={() => <App/>}/>
+        <Route exact path="/:id" render={(browserProps) => <App id={browserProps.match.params.id}/>}/>
         
         </Switch>
       </Router>
-    
+      </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -5,6 +5,8 @@ export default (state = {title: "Composition Name", origTempo:120.0, numBars: 2,
             return {...state, loading: true}
         case 'FINISH_LOADING_COMPOSITION':
             return {...action.composition, loading: false}
+        case 'ADD_ID_TO_COMPOSITION':
+            return {...action.composition, id:action.id}
         default:
             return state
     }

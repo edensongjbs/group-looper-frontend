@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import {v4 as uuid} from 'uuid'
 import { loadComposition } from '../actions/load_composition'
 import { createLayer } from '../actions/create_layer'
+import {establishTransportSettings} from '../lib/establish_transport_settings'
 
 class CompositionLoader extends React.Component {
 
@@ -33,14 +34,7 @@ class CompositionLoader extends React.Component {
     //     // if (prevProps.composition)
     // }
 
-    establishTransportSettings = (tempo, timeSigNum, timeSigDenom, numBars) => {
-        Tone.Transport.stop()
-        Tone.Transport.loop = true
-        Tone.Transport.bpm.value = tempo
-        Tone.Transport.timeSignature = [timeSigNum, timeSigDenom]
-        Tone.Transport.loopEnd = `${numBars}m`
-        Tone.Transport.loopStart = 0
-    }
+    
 
     // componentDidUpdate = (prevProps) => {
     //     if (this.props.session.id===prevProps.session.id){return}
@@ -55,19 +49,38 @@ class CompositionLoader extends React.Component {
     //     }
     // }
 
+    componentDidUpdate = (prevProps) => {
+        if (this.props.session.loaded !== prevProps.session.loaded){
+            if (!this.props.compositionId){
+                establishTransportSettings(this.props.composition.origTempo, this.props.composition.timeSigNum, this.props.composition.timeSigDenom, this.props.composition.numBars)
+                this.createMetronomePart()
+            }
+            else if (this.props.compositionId === "new"){
+                this.createMetronomePart()
+            }
+        }
+        
+    }
+
     componentDidMount = () => {
         
         if (this.props.compositionId === "new"){
-            this.establishTransportSettings(this.props.composition.origTempo, this.props.composition.timeSigNum, this.props.composition.timeSigDenom, this.props.composition.numBars)
+            if (!this.props.session.loaded){return}
+            // establishTransportSettings(this.props.composition.origTempo, this.props.composition.timeSigNum, this.props.composition.timeSigDenom, this.props.composition.numBars)
             this.createMetronomePart()
             // create new metnroome part and new session
         }
         else if (!this.props.compositionId){
-            this.establishTransportSettings(this.props.composition.origTempo, this.props.composition.timeSigNum, this.props.composition.timeSigDenom, this.props.composition.numBars)
+            if (!this.props.session.loaded){
+                this.props.finishLoading()
+                return
+            }
+            establishTransportSettings(this.props.composition.origTempo, this.props.composition.timeSigNum, this.props.composition.timeSigDenom, this.props.composition.numBars)
             this.createMetronomePart()
         } 
         else {
-            this.props.loadComposition(this.props.compositionId, this.establishTransportSettings)
+            // console.log(this.props.compositionId)
+            this.props.loadComposition(this.props.compositionId, establishTransportSettings)
         }
     }
 
@@ -78,8 +91,8 @@ class CompositionLoader extends React.Component {
 
 const mapStateToProps = (state) => ({
     // currentInstrument: state.instruments.current.name,
-    // session: state.session
-    composition: state.composition,
+    session: state.session,
+    composition: state.composition
     // currentLayer: state.currentLayer,
     // playing: state.transport.playing,
     // layerName: state.layerName
@@ -91,6 +104,7 @@ const mapDispatchToProps = (dispatch) => ({
     // startMusic: () => dispatch({type:'START_MUSIC'}),
     // stopMusic: () => dispatch({type:'STOP_MUSIC'}),
     // clearNoteEvents: () => dispatch({type:'CLEAR_NOTE_EVENTS'}),
+    finishLoading: () => dispatch({type:'FINISH_LOADING'}),
     createLayer: (layer, layerId, layerName, compositionId, instrumentName, readOnly=false) => dispatch(createLayer(layer, layerId, layerName, compositionId, instrumentName, readOnly)),
     loadComposition: (compositionId, transportCallback) => dispatch(loadComposition(compositionId, transportCallback))
     // exportNoteEvents: (currentLayer) => dispatch({type:'EXPORT_NOTE_EVENTS', currentLayer}),

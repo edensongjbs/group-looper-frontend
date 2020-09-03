@@ -63,8 +63,6 @@ class KeyboardArea extends React.Component {
     }
     
     
-
-
     render() {
         return(
             <div className="keyboard-area">

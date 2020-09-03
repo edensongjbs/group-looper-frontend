@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-// import createLayer from '../actions/create_layer'
 import {loadInstrument} from '../actions/instrument'
 
 class CompositionWebSocket extends React.Component {
 
     createSubscription = () => {
+        
         if (!this.props.cableApp) {return}
         this.props.cableApp.composition =
         this.props.cableApp.cable.subscriptions.create({
@@ -14,13 +14,12 @@ class CompositionWebSocket extends React.Component {
         },
         {
             received: (newLayer) => {
-                // does it need formatting?
-                // console.log(newLayer)
-                debugger
+    
                 if (this.props.layers.map(layer => layer.id).includes(newLayer.oldId)) {
                     this.props.updateInstrumentKey(newLayer.oldId, newLayer.id)
                     this.props.updateLayerAfterPost(newLayer.oldId, newLayer.id)
                 }
+
                 else {
                     this.props.loadInstrument(newLayer.instrumentName, newLayer.id)
                     this.props.createLayer(newLayer)

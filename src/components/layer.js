@@ -52,12 +52,11 @@ class Layer extends React.Component {
 
     componentWillUnmount = () => {
         // can probably include extra cleanup login in here?
-        console.log('unmounting layer')
         this.removeSequence(this.props.instrument.instrumentObject)
     }
 
     componentDidUpdate = (prevProps) => {
-        //This will need some more work!!!
+        //This might need more work?
         if (this.props.transportPlaying !== prevProps.transportPlaying) {
             console.log('playing status changed')
             if (this.state.playing){

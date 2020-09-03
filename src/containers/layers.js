@@ -3,10 +3,7 @@ import React, { Component } from 'react'
 import Layer from '../components/Layer'
 
 class Layers extends React.Component {
-    // componentDidUpdate = (prevProps) => {
-    //     console.log('previous layer props...', prevProps)
-    //     console.log('current layer props...', this.props)
-    // }
+
     render() {
         return(
             <ul>

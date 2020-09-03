@@ -7,7 +7,6 @@ import { loadInstrument } from '../actions/instrument'
 
 class KeyboardArea extends React.Component {
       
-    eventListeners = [] 
     synth = null  
     offset = Tone.context.lookAhead
     
@@ -43,22 +42,24 @@ class KeyboardArea extends React.Component {
     }
 
 
-    //NEED TO FIGURE OUT HOW TO DO THIS!!!!
-    // componentWillUnmount = () => {
-    //     console.log(this.eventListeners)
-    //     this.eventListeners.forEach(el => window.removeEventListener(el))
-    // }
+    componentWillUnmount = () => {
+        window.removeEventListener("keydown", this.respondKeyDown)
+        window.removeEventListener("keyup", this.respondKeyUp)
+    }
+
+    respondKeyDown = e => {
+        if (e.repeat) {return}
+        this.playNote(Global.notes[e.key] || "C4")
+    }
+
+    respondKeyUp = e => {
+        this.releaseNote(Global.notes[e.key] || "C4")
+    }
+
 
     componentDidMount = () => {
-
-        this.eventListeners.push(window.addEventListener("keydown", e => {
-            if (e.repeat) {return}
-            this.playNote(Global.notes[e.key] || "C4")
-        }))
-            
-        this.eventListeners.push(window.addEventListener("keyup", e => {
-            this.releaseNote(Global.notes[e.key] || "C4")
-        }))
+        window.addEventListener("keydown", this.respondKeyDown)
+        window.addEventListener("keyup", this.respondKeyUp)
     }
     
     

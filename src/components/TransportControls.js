@@ -12,7 +12,6 @@ class TransportControls extends React.Component {
         this.props.currentInstrumentToNewLayer(id)
         this.props.createLayer(this.props.currentLayer, id, this.props.layerName, this.props.composition.id, this.props.currentInstrument)
         this.props.resetLayerName()
-        // this.props.clearNoteEvents()
     }
 
     render() {
@@ -40,9 +39,7 @@ const mapDispatchToProps = (dispatch) => ({
     startMusic: () => dispatch({type:'START_MUSIC'}),
     stopMusic: () => dispatch({type:'STOP_MUSIC'}),
     clearNoteEvents: () => dispatch({type:'CLEAR_NOTE_EVENTS'}),
-    createLayer: (layer, layerId, layerName, compositionId, instrumentName, readOnly=false) => dispatch(createLayer(layer, layerId, layerName, compositionId, instrumentName, readOnly)),
-    // loadComposition: (compositionId) => dispatch(loadComposition(compositionId))
-    // exportNoteEvents: (currentLayer) => dispatch({type:'EXPORT_NOTE_EVENTS', currentLayer}),
+    createLayer: (layer, layerId, layerName, compositionId, instrumentName, readOnly=false) => dispatch(createLayer(layer, layerId, layerName, compositionId, instrumentName, readOnly))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransportControls)

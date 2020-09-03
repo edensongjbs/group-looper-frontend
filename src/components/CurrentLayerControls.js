@@ -12,14 +12,9 @@ class CurrentLayerControls extends React.Component {
         this.props.loadInstrument(e.target.value, "current")
     }
 
-    createMetronomeInstrument = () => {
-        this.props.loadInstrument("woodblock", "metronome")
-    }
-
-    //Some craziness - is there a more React way to hanlde this?
+    
     componentDidMount = () => {
         this.selectNewInstrument({target:{blur:()=>{}, value:(document.querySelector(".sound-selector-select").value)}})
-        this.createMetronomeInstrument()
     }
 
     render() {

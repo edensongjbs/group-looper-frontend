@@ -9,7 +9,11 @@ export default (state = [], action) => {
         
         case 'UPDATE_LAYER_AFTER_POST':
             return state.map(layer => layer.id === action.oldId ? {...layer, id: action.newId} : layer)
-        
+
+        case 'DELETE_LAYER':
+            console.log(state, action)
+            console.log(state.filter(layer => layer.id !== action.layerId))
+            return state.filter(layer => layer.id !== action.layerId)
         default:
             return state
     }

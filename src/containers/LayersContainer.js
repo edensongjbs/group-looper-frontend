@@ -9,9 +9,7 @@ export default class LayersContainer extends React.Component {
                     <h3>Layers</h3>
                 </div>
                 <div className="layer-scroll">
-                    <ul>
-                        {<Layers/>}
-                    </ul>
+                        <Layers/>
                 </div>
             </div>
                 

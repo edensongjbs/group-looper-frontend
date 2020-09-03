@@ -200,6 +200,12 @@ li {
   grid-column: 1fr;
 }
 
+.layers {
+  display: grid;
+  grid-row: auto 1fr;
+  grid-column: 1fr;
+}
+
 .users-title {
   display: flex;
   grid-column: 1/2;

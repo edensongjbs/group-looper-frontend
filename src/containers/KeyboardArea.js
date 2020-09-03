@@ -3,7 +3,8 @@ import * as Tone from 'tone'
 import * as Global from '../settings/global_settings'
 import { connect } from 'react-redux'
 import NewCompositionForm from '../components/NewCompositionForm'
-import { loadInstrument } from '../actions/instrument'
+import LoginForm from '../components/LoginForm'
+import SignupForm from '../components/SignupForm'
 
 class KeyboardArea extends React.Component {
       
@@ -62,11 +63,19 @@ class KeyboardArea extends React.Component {
         window.addEventListener("keyup", this.respondKeyUp)
     }
     
-    
+
     render() {
         return(
             <div className="keyboard-area">
-                {this.props.loaded ? <img src="https://media.giphy.com/media/RgzryV9nRCMHPVVXPV/giphy.gif" alt="loading"/> : <NewCompositionForm/>}
+                {
+                    this.props.loaded && this.props.user ? 
+                    <img src="https://media.giphy.com/media/RgzryV9nRCMHPVVXPV/giphy.gif" alt="loading"/> : 
+                    this.props.user ?
+                    <NewCompositionForm/> :
+                    this.props.form === 'LOG_IN' ?
+                    <LoginForm/> :
+                    <SignupForm/>
+                }
             </div>
         )
     }
@@ -74,6 +83,8 @@ class KeyboardArea extends React.Component {
 
 const mapStateToProps = (state) => ({
     loaded: state.session.loaded,
+    user: state.session.user,
+    form: state.session.form,
     composition: state.composition,
     playing: state.transport.playing,
     instrument: state.instruments.current,

@@ -14,7 +14,7 @@ class TransportBar extends React.Component {
             <div className={this.props.loaded ? "transport loaded" : "transport unloaded"}>
                 <CompositionLoader compositionId={this.props.id}/>
                 <CompositionWebSocket/>
-                {this.props.loaded ?
+                {this.props.loaded  && this.props.user ?
                     <>
                         <SongTitle/>
                         <LayerName/>
@@ -22,8 +22,11 @@ class TransportBar extends React.Component {
                         <TempoMeterInfo/>
                         <CurrentLayerControls/>
                     </>
-                :
+                : this.props.user ?
                     <h1>New Composition Form</h1>
+                : this.props.form === "LOG_IN" ?
+                    <h1>Please Login</h1>
+                : <h1>Sign Up For An Account</h1>
                 }
             </div>
         )
@@ -32,6 +35,8 @@ class TransportBar extends React.Component {
 
 const mapStateToProps = (state) => ({
     loaded: state.session.loaded,
+    user: state.session.user,
+    form: state.session.form
     // compositionId: state.session.compositionId
 })
 

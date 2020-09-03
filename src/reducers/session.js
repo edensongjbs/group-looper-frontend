@@ -1,6 +1,6 @@
 
 
-export default (state = {user:null, compositionId: null, loaded:false, createMetronome:false, cableApp:null}, action) => {
+export default (state = {user:null, form:'LOG_IN', compositionId: null, loaded:false, createMetronome:false, cableApp:null}, action) => {
     switch (action.type) {
 
         case 'START_LOADING':

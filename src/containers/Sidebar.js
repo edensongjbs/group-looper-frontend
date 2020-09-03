@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 class Sidebar extends React.Component {
     render() {
         return(
-            this.props.loaded ?
+            this.props.loaded && this.props.user ?
             <div className="sidebar loaded">
                 <UsersContainer/>
                 <LayersContainer/>
@@ -20,7 +20,8 @@ class Sidebar extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    loaded: state.session.loaded
+    loaded: state.session.loaded,
+    user: state.session.user
 })
 
 export default connect(mapStateToProps)(Sidebar)

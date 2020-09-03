@@ -35,6 +35,7 @@ class Layer extends React.Component {
     }
 
     componentDidMount = () => {
+        console.log(this.props)
         this.addToSequence(this.props.layer, this.props.instrument.instrumentObject)
     }
 

@@ -15,9 +15,16 @@ class CompositionWebSocket extends React.Component {
         {
             received: (newLayer) => {
                 // does it need formatting?
-                console.log(newLayer)
-                this.props.loadInstrument(newLayer.instrumentName, newLayer.layerId)
-                this.props.createLayer(newLayer)
+                // console.log(newLayer)
+                debugger
+                if (this.props.layers.map(layer => layer.id).includes(newLayer.oldId)) {
+                    this.props.updateInstrumentKey(newLayer.oldId, newLayer.id)
+                    this.props.updateLayerAfterPost(newLayer.oldId, newLayer.id)
+                }
+                else {
+                    this.props.loadInstrument(newLayer.instrumentName, newLayer.id)
+                    this.props.createLayer(newLayer)
+                }
             }
         })
     }
@@ -43,12 +50,15 @@ class CompositionWebSocket extends React.Component {
 
 const mapStateToProps = (state) => ({
     cableApp: state.session.cableApp,
-    compositionId: state.composition.id
+    compositionId: state.composition.id,
+    layers: state.layers
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    createLayer: (newLayer) => dispatch({type:'CREATE_LAYER',layer: newLayer.layer, layerId:newLayer.layerId, layerName:newLayer.layerName, compositionId:newLayer.compositionId, instrumentName:newLayer.instrumentName, readOnly:false}),
-    loadInstrument: (instrumentName, layerId) => dispatch(loadInstrument(instrumentName, layerId))
+    createLayer: (newLayer) => dispatch({type:'CREATE_LAYER',layer: JSON.parse(newLayer.layerString), layerId:newLayer.id, layerName:newLayer.layerName, compositionId:newLayer.compositionId, instrumentName:newLayer.instrumentName, readOnly:false}),
+    loadInstrument: (instrumentName, layerId) => dispatch(loadInstrument(instrumentName, layerId)),
+    updateInstrumentKey: (oldId, newId) => dispatch({type:'UPDATE_INSTRUMENT_KEY', oldId, newId}),
+    updateLayerAfterPost: (oldId, newId) => dispatch({type:'UPDATE_LAYER_AFTER_POST', oldId, newId})
 })
 
 

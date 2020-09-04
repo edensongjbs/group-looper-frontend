@@ -16,7 +16,7 @@ class NewCompositionForm extends React.Component {
 
     render(){
         return(
-            <div type="new-comp=form">
+            <div type="new-comp-form">
                 <form onSubmit={this.submitHandler}>
                     <label htmlFor="title" >Name</label>
                     <input onChange={this.changeHandler} type="text" name="title" placeholder="A Glorious New Work" value={this.state.name}/><br/><br/>

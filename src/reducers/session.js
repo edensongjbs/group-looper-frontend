@@ -1,6 +1,6 @@
 
 
-export default (state = {user:null, form:'LOG_IN', compositionId: null, loaded:false, createMetronome:false, cableApp:null}, action) => {
+export default (state = {loggedIn: !!localStorage.jwt, user:null, userForm:'LOG_IN', compForm:'SELECT_COMPOSITION', compositionId: null, loaded:false, createMetronome:false, cableApp:null}, action) => {
     switch (action.type) {
 
         case 'START_LOADING':
@@ -13,10 +13,16 @@ export default (state = {user:null, form:'LOG_IN', compositionId: null, loaded:f
             return {...state, compositionId:action.compositionId}
         
         case 'LOGIN':
-            return {...state, user:action.user}
-        
+            if (action.user.jwt) { 
+                localStorage.jwt = action.user.jwt 
+                return {...state, loggedIn:true, user:action.user}
+            }
+            else {
+                return {...state}
+            }
         case 'LOGOUT':
-            return {...state, user:null}
+            delete localStorage.jwt
+            return {...state, loggedIn:false, user:null}
         
         case 'TRIGGER_METRONOME_CREATION':
             return {...state, createMetronome:true}
@@ -26,6 +32,9 @@ export default (state = {user:null, form:'LOG_IN', compositionId: null, loaded:f
         
         case 'ESTABLISH_CABLE_APP':
             return {...state, cableApp:action.cableApp}
+
+        case 'SWITCH_USER_FORM':
+            return {...state, userForm:action.formValue}
         
         default:
             return state

@@ -68,11 +68,11 @@ class KeyboardArea extends React.Component {
         return(
             <div className="keyboard-area">
                 {
-                    this.props.loaded && this.props.user ? 
+                    this.props.loaded && this.props.loggedIn ? 
                     <img src="https://media.giphy.com/media/RgzryV9nRCMHPVVXPV/giphy.gif" alt="loading"/> : 
-                    this.props.user ?
+                    this.props.loggedIn ?
                     <NewCompositionForm/> :
-                    this.props.form === 'LOG_IN' ?
+                    this.props.userForm === 'LOG_IN' ?
                     <LoginForm/> :
                     <SignupForm/>
                 }
@@ -83,8 +83,9 @@ class KeyboardArea extends React.Component {
 
 const mapStateToProps = (state) => ({
     loaded: state.session.loaded,
+    loggedIn: state.session.loggedIn,
     user: state.session.user,
-    form: state.session.form,
+    userForm: state.session.userForm,
     composition: state.composition,
     playing: state.transport.playing,
     instrument: state.instruments.current,

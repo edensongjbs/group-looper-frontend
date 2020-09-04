@@ -11,6 +11,7 @@ class LoginForm extends React.Component {
 
     submitHandler = (e) => {
         e.preventDefault()
+        this.props.clearErrors()
         if (this.state.userName.includes('@')) {
             this.props.loginUser({password:this.state.password, email:this.state.userName})
         }
@@ -21,12 +22,18 @@ class LoginForm extends React.Component {
 
     changeForm = (e) => {
         e.preventDefault()
+        this.props.clearErrors()
         this.props.switchForm('NEW_USER')
     }
 
     render(){
         return(
             <div type="new-comp-form">
+                {this.props.errorMessages.length>0 ? 
+                <ul className="error-messages">
+                    {this.props.errorMessages.map((em,i) => (<li key={i}>{em}</li>))}
+                </ul>
+                : null}
                 <form onSubmit={this.submitHandler}>
                     <label htmlFor="userName" >User Name or Email</label>
                     <input onChange={this.changeHandler} type="text" name="userName" placeholder="Your Username or Email" value={this.state.name}/><br/><br/>
@@ -41,10 +48,11 @@ class LoginForm extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-
+    errorMessages: state.session.errorMessages
 })
 
 const mapDispatchToProps = (dispatch) => ({
+    clearErrors: () => dispatch({type:'CLEAR_ERRORS'}),
     loginUser: (user) => dispatch(loginUser(user)),
     switchForm: (formValue) => dispatch({type:'SWITCH_USER_FORM', formValue})
 })

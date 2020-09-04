@@ -17,7 +17,12 @@ export const signupUser = (user) => {
         fetch(url, configObj)
         .then(res => res.json())
         .then(json => {
-            dispatch({type:'LOGIN', user: {userName: json.userName, jwt: json.jwt}})
+            if (json.errors) {
+                dispatch({type:'LOG_ERRORS', errors:json.errors})
+            }
+            else {
+                dispatch({type:'LOGIN', user: {userName: json.userName, jwt: json.jwt}})
+            }
         })
     }
 }

@@ -11,11 +11,13 @@ class SignupForm extends React.Component {
 
     submitHandler = (e) => {
         e.preventDefault()
+        this.props.clearErrors()
         console.log("trying to submit")
         this.props.signupUser(this.state)
     }
 
     changeForm = (e) => {
+        this.props.clearErrors()
         e.preventDefault()
         this.props.switchForm('LOG_IN')
     }
@@ -23,6 +25,11 @@ class SignupForm extends React.Component {
     render(){
         return(
             <div type="new-comp-form">
+                    {this.props.errorMessages.length>0 ? 
+                    <ul className="error-messages">
+                        {this.props.errorMessages.map((em,i) => (<li key={i}>{em}</li>))}
+                    </ul>
+                    : null}
                     {this.state.errors ? "There's an error" : null}
                     <form onSubmit={this.submitHandler}><label htmlFor="name" >Name</label>
                     <input onChange={this.changeHandler} type="text" name="name" placeholder="Guybrush Threepwood" value={this.state.name}/><br/><br/>
@@ -43,10 +50,11 @@ class SignupForm extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-
+    errorMessages: state.session.errorMessages
 })
 
 const mapDispatchToProps = (dispatch) => ({
+    clearErrors: () => dispatch({type:'CLEAR_ERRORS'}),
     signupUser: (newUserInfo) => dispatch(signupUser(newUserInfo)),
     switchForm: (formValue) => dispatch({type:'SWITCH_USER_FORM', formValue})
 })

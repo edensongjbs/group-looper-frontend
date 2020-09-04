@@ -218,6 +218,10 @@ li {
   margin-block-end: 5px;
 }
 
+.error-messages{
+  color: red;
+}
+
 .layer-muted {
   color: red;
 }

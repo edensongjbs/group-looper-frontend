@@ -1,6 +1,6 @@
 
 
-export default (state = {loggedIn: !!localStorage.jwt, user:null, userForm:'LOG_IN', compForm:'SELECT_COMPOSITION', compositionId: null, loaded:false, createMetronome:false, cableApp:null}, action) => {
+export default (state = {loggedIn: !!localStorage.jwt, user:null, errorMessages:[], userForm:'LOG_IN', compForm:'SELECT_COMPOSITION', compositionId: null, loaded:false, createMetronome:false, cableApp:null}, action) => {
     switch (action.type) {
 
         case 'START_LOADING':
@@ -35,6 +35,12 @@ export default (state = {loggedIn: !!localStorage.jwt, user:null, userForm:'LOG_
 
         case 'SWITCH_USER_FORM':
             return {...state, userForm:action.formValue}
+
+        case 'LOG_ERRORS':
+            return {...state, errorMessages:action.errors}
+
+        case 'CLEAR_ERRORS':
+            return {...state, errorMessages:[]}
         
         default:
             return state

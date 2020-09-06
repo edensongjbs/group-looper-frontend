@@ -10,7 +10,9 @@ import * as Tone from 'tone'
 const SampleLibrary = {
     minify: false,
     ext: '.[mp3|ogg]', // use setExt to change the extensions on all files // do not change this variable //
-    baseUrl: './samples/',
+    // baseUrl: './samples/',
+    // baseUrl:'http://jbsrecording.com/public_samples/samples/',
+    baseUrl: 'http://localhost:3000/samples/',
     list: ['bass-electric','bassoon','cello','clarinet','contrabass','flute','french-horn','guitar-acoustic','guitar-electric','guitar-nylon', 'harmonium','harp','organ','piano','saxophone','trombone','trumpet','tuba','violin','xylophone', 'woodblock'],
     onload: null,
   
@@ -73,7 +75,7 @@ const SampleLibrary = {
 
 
 
-
+                console.log(t.baseUrl + t.instruments[i] + "/")
                 rt[t.instruments[i]] = new Tone.Sampler(
                     newT, {
                         baseUrl: t.baseUrl + t.instruments[i] + "/",

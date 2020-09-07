@@ -1,17 +1,19 @@
 import { loadInstrument } from './instrument'
 import { establishTransportSettings } from '../lib/establish_transport_settings'
 
-export const loadComposition = (compositionId, transportCallback) => {
+export const loadComposition = (compositionId) => {
     const url = `http://localhost:3000/compositions/${compositionId}`
     return (dispatch) => {
         dispatch({type:'START_LOADING_COMPOSITION'})
-        fetch(url)
+        fetch(url, {headers:{'Authorization': `Bearer ${localStorage.jwt}`}})
         .then(res => res.json())
         .then(json => {
+            console.log(json)
             establishTransportSettings(json.origTempo, json.timeSigNum, json.timeSigDenom, json.numBars)
             json.layers.forEach(layer => {
                 dispatch(loadInstrument(layer.instrumentName, layer.id))
-                dispatch({type:'CREATE_LAYER', layer: JSON.parse(layer.layerString), layerId: layer.id, layerName: layer.layerName, readOnly: layer.readOnly})
+                dispatch({type:'LOGIN', user:{userName:json.userName, jwt: localStorage.jwt}})
+                dispatch({type:'CREATE_LAYER', layer: JSON.parse(layer.layerString), userName: layer.userName, layerId: layer.id, layerName: layer.layerName, readOnly: layer.readOnly})
             })
             dispatch({type:'FINISH_LOADING_COMPOSITION', composition:json})})
             dispatch({type:'FINISH_LOADING'})

@@ -4,7 +4,8 @@ export default (state = [], action) => {
     switch (action.type) {
         
         case 'CREATE_LAYER':
-            const newLayer = {id: action.layerId, name: action.layerName, readOnly: action.readOnly, noteEvents: [...action.layer]}
+            console.log(action)
+            const newLayer = {userName: action.userName, id: action.layerId, userName: action.userName, name: action.layerName, readOnly: action.readOnly, noteEvents: [...action.layer]}
             return [...state, newLayer]
         
         case 'UPDATE_LAYER_AFTER_POST':

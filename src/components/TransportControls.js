@@ -10,7 +10,7 @@ class TransportControls extends React.Component {
     commitHandler = () => {
         const id = uuid()
         this.props.currentInstrumentToNewLayer(id)
-        this.props.createLayer(this.props.currentLayer, id, this.props.layerName, this.props.composition.id, this.props.currentInstrument)
+        this.props.createLayer(this.props.currentLayer, id, this.props.layerName, this.props.composition.id, this.props.currentInstrument, this.props.userName, false)
         this.props.resetLayerName()
     }
 
@@ -30,7 +30,8 @@ const mapStateToProps = (state) => ({
     composition: state.composition,
     currentLayer: state.currentLayer,
     playing: state.transport.playing,
-    layerName: state.layerName
+    layerName: state.layerName,
+    userName: state.session.user.userName
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -39,7 +40,7 @@ const mapDispatchToProps = (dispatch) => ({
     startMusic: () => dispatch({type:'START_MUSIC'}),
     stopMusic: () => dispatch({type:'STOP_MUSIC'}),
     clearNoteEvents: () => dispatch({type:'CLEAR_NOTE_EVENTS'}),
-    createLayer: (layer, layerId, layerName, compositionId, instrumentName, readOnly=false) => dispatch(createLayer(layer, layerId, layerName, compositionId, instrumentName, readOnly))
+    createLayer: (layer, layerId, layerName, compositionId, instrumentName, userName, readOnly) => dispatch(createLayer(layer, layerId, layerName, compositionId, instrumentName, userName, readOnly))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransportControls)

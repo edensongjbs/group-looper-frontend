@@ -28,7 +28,7 @@ class CompositionLoader extends React.Component {
             }
         }
         this.props.loadInstrument("woodblock", "metronome")
-        this.props.createLayer(metronomePart, "metronome", "metronome", this.props.composition.id, "woodblock", true)
+        this.props.createLayer(metronomePart, "metronome", "metronome", this.props.composition.id, "woodblock", true, this.props.session.user.userName)
     }
 
     componentDidUpdate = (prevProps) => {

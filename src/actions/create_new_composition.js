@@ -4,11 +4,11 @@ import { establishTransportSettings } from '../lib/establish_transport_settings'
 
 export const createNewComposition = (composition) => {
     const url = `http://localhost:3000/compositions/`
-    const userId = 1 //pass in User ID.  This is just temporary hard coding
+    // const userId = 1 //pass in User ID.  This is just temporary hard coding
     const compositionObj = {
         name: composition.title,
         tempo: composition.origTempo,
-        creator_id: userId,
+        // creator_id: userId,
         num_bars: composition.numBars,
         time_sig_num: composition.timeSigNum,
         time_sig_denom: composition.timeSigDenom
@@ -16,7 +16,7 @@ export const createNewComposition = (composition) => {
 
     const configObj = {
         method:'POST',
-        headers:{'Content-Type':'application/json'},
+        headers:{'Content-Type':'application/json', 'Authorization': `Bearer ${localStorage.jwt}`},
         body:JSON.stringify(compositionObj)
     }
     return (dispatch) => {

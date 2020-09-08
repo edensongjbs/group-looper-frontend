@@ -233,3 +233,7 @@ li {
 .layer-loading {
   color: orange;
 }
+
+.add-user {
+  font-size:1em;
+}

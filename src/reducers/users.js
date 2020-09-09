@@ -3,10 +3,10 @@ export default (state = [], action) => {
         
         case 'ADD_USER':
             console.log(action)
-            const newUser = {userName: action.userName, loggedIn:action.loggedIn}
-            return [...state, newUser]
+            return [...state, action.user]
         
         case 'REMOVE_USER':
+            console.log(action)
             return state.filter(user => user.userName !== action.userName)
 
         case 'UPDATE_USER_STATUS':

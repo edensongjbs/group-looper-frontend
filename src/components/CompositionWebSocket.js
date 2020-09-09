@@ -27,9 +27,21 @@ class CompositionWebSocket extends React.Component {
                             this.props.loadInstrument(newLayer.instrumentName, newLayer.id)
                             this.props.createLayer(newLayer)
                         }
+                    
                     case 'DELETE_LAYER':
 
                         this.props.deleteLayer(response.layerId)
+                    
+                    case 'ADD_USER':
+                        
+                        console.log(`Inside websocket`, response)
+                        this.props.addUser(response.user)
+                    
+                    case 'REMOVE_USER':
+
+                        console.log(`Inside websocket`, response)
+                        this.props.removeUser(response.userName)
+
                 }
             }
         })
@@ -61,6 +73,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+    removeUser: (userName) => dispatch({type:'REMOVE_USER', userName}),
+    addUser: (user) => dispatch({type:'ADD_USER', user:{...user, loggedIn:false}}),
     createLayer: (newLayer) => dispatch({type:'CREATE_LAYER',layer: JSON.parse(newLayer.layerString), layerId:newLayer.id, layerName:newLayer.layerName, compositionId:newLayer.compositionId, instrumentName:newLayer.instrumentName, readOnly:false}),
     loadInstrument: (instrumentName, layerId) => dispatch(loadInstrument(instrumentName, layerId)),
     updateInstrumentKey: (oldId, newId) => dispatch({type:'UPDATE_INSTRUMENT_KEY', oldId, newId}),

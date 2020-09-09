@@ -14,9 +14,20 @@ class NewCompositionForm extends React.Component {
         this.props.createNewComposition(this.state)
     }
 
+    changeForm = (e) => {
+        e.preventDefault()
+        // this.props.clearErrors()
+        this.props.switchForm()
+    }
+
     render(){
         return(
             <div type="new-comp-form">
+                {this.props.errorMessages.length>0 ? 
+                <ul className="error-messages">
+                    {this.props.errorMessages.map((em,i) => (<li key={i}>{em}</li>))}
+                </ul>
+                : null}
                 <form onSubmit={this.submitHandler}>
                     <label htmlFor="title" >Name</label>
                     <input onChange={this.changeHandler} type="text" name="title" placeholder="A Glorious New Work" value={this.state.name}/><br/><br/>
@@ -27,17 +38,19 @@ class NewCompositionForm extends React.Component {
                     <label htmlFor="timeSigNum">Beats per Bar</label>
                     <input onChange={this.changeHandler} type="number" name="timeSigNum" value={this.state.timeSigNum}/><br/><br/>
                     <input type="submit"/>
-                </form>
+                </form><br/><br/>
+                <a href="" onClick={this.changeForm}>Click Here to Choose A Composition!</a>
             </div>
         )
     }
 }
 
 const mapStateToProps = (state) => ({
-
+    errorMessages: state.session.errorMessages
 })
 
 const mapDispatchToProps = (dispatch) => ({
+    switchForm: () => dispatch({type:'SWITCH_COMP_FORM', formValue:'SELECT_COMPOSITION'}),
     createNewComposition: (composition) => dispatch(createNewComposition(composition))
 })
 

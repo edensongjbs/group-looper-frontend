@@ -1,6 +1,8 @@
 import React from 'react'
 import AddUserForm from '../components/AddUserForm'
 import {connect} from 'react-redux'
+import {addUser} from '../actions/add_user'
+import Users from './Users'
 
 class UsersContainer extends React.Component {
 
@@ -8,8 +10,7 @@ class UsersContainer extends React.Component {
 
     submitHandler = (e) => {
         e.preventDefault()
-        // this.props.addUser(this.state.name)
-        alert('adding user')
+        this.props.addUser(e.target[0].value, this.props.compositionId)
         this.props.enableKeys()
         this.setState(()=>({editing:false}))
     }
@@ -27,20 +28,23 @@ class UsersContainer extends React.Component {
                     :<h3><button onClick={this.clickHandler} className="add-user">+</button>Users</h3>}
                 </div>
                 <div className="user-scroll">
-                    <ul>
+                    {/* <ul>
                         <li><div className="user-li"><button>X</button>UserName Here</div></li>
-                    </ul>
+                    </ul> */}
+                    <Users/>
                 </div>
             </div>
         )
     }
 }
 
+const mapStateToProps = (state) => ({compositionId: state.composition.id})
+
 
 const mapDispatchToProps = (dispatch) => ({
-    addUser: (name) => dispatch({type:'CHANGE_LAYER_NAME', name}),
+    addUser: (name, composition) => dispatch(addUser(name, composition)),
     enableKeys: () => dispatch({type:'ENABLE_KEYS'}),
     disableKeys: () => dispatch({type:'DISABLE_KEYS'})
 })
 
-export default connect(null, mapDispatchToProps)(UsersContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer)

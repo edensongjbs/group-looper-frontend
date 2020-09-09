@@ -9,8 +9,8 @@ export default (state = {loggedIn: !!localStorage.jwt, user:{userName:null}, err
         case 'FINISH_LOADING':
             return {...state, loaded:true}
         
-        case 'UPDATE_COMPOSITION':
-            return {...state, compositionId:action.compositionId}
+        // case 'UPDATE_COMPOSITION':
+        //     return {...state, compositionId:action.compositionId}
         
         case 'LOGIN':
             if (action.user.jwt) { 
@@ -27,7 +27,7 @@ export default (state = {loggedIn: !!localStorage.jwt, user:{userName:null}, err
         case 'TRIGGER_METRONOME_CREATION':
             return {...state, createMetronome:true}
         
-            case 'END_METRONOME_CREATION':
+        case 'END_METRONOME_CREATION':
             return {...state, createMetronome:false}
         
         case 'ESTABLISH_CABLE_APP':
@@ -35,6 +35,9 @@ export default (state = {loggedIn: !!localStorage.jwt, user:{userName:null}, err
 
         case 'SWITCH_USER_FORM':
             return {...state, userForm:action.formValue}
+
+        case 'SWITCH_COMP_FORM':
+            return {...state, compForm:action.formValue}
 
         case 'LOG_ERRORS':
             return {...state, errorMessages:action.errors}

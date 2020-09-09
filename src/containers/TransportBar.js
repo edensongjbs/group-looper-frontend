@@ -23,7 +23,9 @@ class TransportBar extends React.Component {
                         <CurrentLayerControls/>
                     </>
                 : this.props.loggedIn ?
-                    <h1>New Composition Form</h1>
+                this.props.compositionForm == 'NEW_COMPOSITION' ?
+                    <h1>New Composition Form</h1> :
+                    <h1>Choose Your Composition</h1>
                 : this.props.userForm === "LOG_IN" ?
                     <h1>Please Login</h1>
                 : <h1>Sign Up For An Account</h1>
@@ -34,6 +36,7 @@ class TransportBar extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+    compositionForm: state.session.compForm,
     loaded: state.session.loaded,
     user: state.session.user,
     loggedIn: state.session.loggedIn,

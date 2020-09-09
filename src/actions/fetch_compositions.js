@@ -1,11 +1,8 @@
-export const loginUser = (user) => {
-    const url = `http://localhost:3000/login`
-    const userObj = {...user}
+export const fetchCompositions = (user) => {
+    const url = `http://localhost:3000/getcomplist`
 
     const configObj = {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(userObj)
+        headers:{'Authorization': `Bearer ${localStorage.jwt}`},
     }
     return (dispatch) => {
         fetch(url, configObj)
@@ -16,7 +13,7 @@ export const loginUser = (user) => {
             }
             else {
                 console.log(json)
-                dispatch({type:'LOGIN', user: {userName: json.userName, jwt: json.jwt}})
+                dispatch({type:'POPULATE_COMP_LIST', compositions:json.compositions})
             }
         })
     }

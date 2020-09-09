@@ -40,7 +40,7 @@ ReactDOM.render(
       <Router>
         <Switch>
         {/* <Route exact path="/compositions/:id" render={() => <Provider store={store}><App/></Provider>}/> */}
-        <Route exact path="/" render={() => <App/>}/>
+        <Route exact path="/" render={() => <App cableApp={CableApp}/>}/>
         <Route exact path="/:id" render={(browserProps) => <App cableApp={CableApp} id={browserProps.match.params.id}/>}/>
         
         </Switch>

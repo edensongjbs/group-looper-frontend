@@ -33,8 +33,14 @@ class CompositionLoader extends React.Component {
 
     componentDidUpdate = (prevProps) => {
         if (this.props.session.loaded !== prevProps.session.loaded){
+            console.log("Here's the situation inside component Did Update", this.props, prevProps)
             if (!this.props.compositionId){
+                console.log('Situation 1')
                 establishTransportSettings(this.props.composition.origTempo, this.props.composition.timeSigNum, this.props.composition.timeSigDenom, this.props.composition.numBars)
+                // if (this.props.session.createMetronome && !prevProps.session.createMetronome) {
+                    this.createMetronomePart()
+                    this.props.endMetronomeCreation()
+                // }
                 return
             }
             else if (this.props.compositionId === "new"){
@@ -50,18 +56,20 @@ class CompositionLoader extends React.Component {
     }
 
     componentDidMount = () => {
-        
+        console.log("Here is the situation inside componentDidMount", this.props)
         if (this.props.compositionId === "new"){
             if (!this.props.session.loaded){return}
             
         }
         else if (!this.props.compositionId){
-            if (!this.props.session.loaded){
-                this.props.finishLoading()
-                return
-            }
-            establishTransportSettings(this.props.composition.origTempo, this.props.composition.timeSigNum, this.props.composition.timeSigDenom, this.props.composition.numBars)
-            this.createMetronomePart()
+            // if (!this.props.session.loaded){
+            //     this.props.finishLoading()
+            //     return
+            // }
+            // establishTransportSettings(this.props.composition.origTempo, this.props.composition.timeSigNum, this.props.composition.timeSigDenom, this.props.composition.numBars)
+            
+            // this.createMetronomePart()
+            console.log("What do I do?")
         } 
         else {
             this.props.loadComposition(this.props.compositionId, establishTransportSettings)

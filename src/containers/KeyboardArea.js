@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import NewCompositionForm from '../components/NewCompositionForm'
 import LoginForm from '../components/LoginForm'
 import SignupForm from '../components/SignupForm'
+import SelectCompositionForm from '../components/SelectCompositionForm'
 
 class KeyboardArea extends React.Component {
       
@@ -65,12 +66,15 @@ class KeyboardArea extends React.Component {
     
 
     render() {
+        console.log(this.props.compositionForm)
         return(
             <div className="keyboard-area">
                 {
                     this.props.loaded && this.props.loggedIn ? 
                     <img src="https://media.giphy.com/media/RgzryV9nRCMHPVVXPV/giphy.gif" alt="loading"/> : 
                     this.props.loggedIn ?
+                    this.props.compositionForm === 'SELECT_COMPOSITION' ?
+                    <SelectCompositionForm/> :
                     <NewCompositionForm/> :
                     this.props.userForm === 'LOG_IN' ?
                     <LoginForm/> :
@@ -86,6 +90,7 @@ const mapStateToProps = (state) => ({
     loggedIn: state.session.loggedIn,
     user: state.session.user,
     userForm: state.session.userForm,
+    compositionForm: state.session.compForm,
     composition: state.composition,
     playing: state.transport.playing,
     instrument: state.instruments.current,

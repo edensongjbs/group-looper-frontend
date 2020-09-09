@@ -13,7 +13,7 @@ class Sidebar extends React.Component {
             </div> 
             :
             <div className="sidebar unloaded">
-                <h2>We can use this area for something fun</h2>
+                <img src="./hdt.gif"/>
             </div>
         )
     }

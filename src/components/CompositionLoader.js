@@ -14,6 +14,7 @@ class CompositionLoader extends React.Component {
     }
 
     createMetronomePart = () => {
+        // if (!this.props.createMetronome.session)
         const metronomePart = []
         const subDivision = (60.0/this.props.composition.origTempo)
         let inc = 0.00

@@ -20,7 +20,9 @@ export const createLayer = (layer, layerId, layerName, compositionId, instrument
     }
     return (dispatch) => {
         console.log(layer)
-        dispatch({type:'CREATE_LAYER', layer, layerId, layerName, readOnly, userName})
+        if (layerId!=="metronome") {
+            dispatch({type:'CREATE_LAYER', layer, layerId, layerName, readOnly, userName})
+        }
         dispatch({type:'CLEAR_NOTE_EVENTS'})
         fetch(url, configObj)
         .then(res => res.json())

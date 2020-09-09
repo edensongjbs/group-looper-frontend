@@ -35,6 +35,8 @@ export const createNewComposition = (composition) => {
                 dispatch({type:'ADD_ID_TO_COMPOSITION', id:json.id})
                 dispatch({type:'FINISH_LOADING'})
                 dispatch({type:'TRIGGER_METRONOME_CONSTRUCTION'})
+                dispatch({type:'LOGIN', user:{userName:json.user.userName, jwt: localStorage.jwt}})
+                dispatch({type:'ADD_USER', user:{...json.user, loggedIn:true}})
                 window.history.pushState({pathname:`/${json.id}`}, "", `/${json.id}`)
             }
         })

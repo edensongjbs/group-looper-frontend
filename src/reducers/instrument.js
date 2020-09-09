@@ -1,4 +1,5 @@
 import { Tone } from "tone/build/esm/core/Tone"
+import { vol } from '../settings/global_settings'
 
 export default (state = {current:{loaded:false}}, action) => {
     let theInstrument
@@ -10,7 +11,7 @@ export default (state = {current:{loaded:false}}, action) => {
         case 'FINISH_LOADING_INSTRUMENT':
             theInstrument = state[action.layerId]
             theInstrument.loaded = true
-            theInstrument.instrumentObject.toDestination()
+            theInstrument.instrumentObject.connect(vol)
             return {...state, [action.layerId]:theInstrument}
         
         case 'CURRENT_INSTRUMENT_TO_NEW_LAYER':

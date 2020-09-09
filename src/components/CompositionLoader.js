@@ -29,7 +29,7 @@ class CompositionLoader extends React.Component {
             }
         }
         this.props.loadInstrument("woodblock", "metronome")
-        this.props.createLayer(metronomePart, "metronome", "metronome", this.props.composition.id, "woodblock", true, this.props.session.user.userName)
+        this.props.createLayer(metronomePart, "metronome", "metronome", this.props.composition.id, "woodblock", this.props.session.user.userName, true)
     }
 
     componentDidUpdate = (prevProps) => {
@@ -91,7 +91,7 @@ const mapDispatchToProps = (dispatch) => ({
     loadInstrument: (instrumentName, layerId) => dispatch(loadInstrument(instrumentName, layerId)),
     endMetronomeCreation: () => dispatch({type:'END_METRONOME_CREATION'}),
     finishLoading: () => dispatch({type:'FINISH_LOADING'}),
-    createLayer: (layer, layerId, layerName, compositionId, instrumentName, readOnly=false) => dispatch(createLayer(layer, layerId, layerName, compositionId, instrumentName, readOnly)),
+    createLayer: (layer, layerId, layerName, compositionId, instrumentName, userName, readOnly=false) => dispatch(createLayer(layer, layerId, layerName, compositionId, instrumentName, userName, readOnly)),
     loadComposition: (compositionId, transportCallback) => dispatch(loadComposition(compositionId, transportCallback))
 })
 

@@ -27,13 +27,11 @@ export const createNewComposition = (composition) => {
         .then(res => res.json())
         .then(json => {
             if (json.error) {
-                
-                debugger
                 dispatch({type:'LOG_ERRORS', errors: [json.error]})
             }
             else {
                 
-                dispatch({type:'ADD_ID_TO_COMPOSITION', id:json.id})
+                dispatch({type:'ADD_ID_TO_COMPOSITION', id:json.id, creatorName:json.creatorName})
                 dispatch({type:'FINISH_LOADING'})
                 dispatch({type:'TRIGGER_METRONOME_CONSTRUCTION'})
                 dispatch({type:'LOGIN', user:{userName:json.user.userName, jwt: localStorage.jwt}})

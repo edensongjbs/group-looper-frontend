@@ -47,7 +47,16 @@ code {
 }
 
 .transport.unloaded {
-  color:orange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* color:yellow; */
+}
+
+.sidebar.unloaded {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .song-title {
@@ -123,6 +132,10 @@ code {
     max-height: 160px;
     min-height: 160px;
   }
+}
+
+input {
+  background-color: #ccc;
 }
 
 select, button {

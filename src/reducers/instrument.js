@@ -1,3 +1,5 @@
+import { Tone } from "tone/build/esm/core/Tone"
+
 export default (state = {current:{loaded:false}}, action) => {
     let theInstrument
     switch (action.type) {

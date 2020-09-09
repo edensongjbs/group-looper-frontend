@@ -14,7 +14,7 @@ const SampleLibrary = {
     // baseUrl: './samples/',
     // baseUrl:'http://jbsrecording.com/public_samples/samples/',
     baseUrl: `${baseUrl}samples/`,
-    list: ['bass-electric','bassoon','cello','clarinet','contrabass','flute','french-horn','guitar-acoustic','guitar-electric','guitar-nylon', 'harmonium','harp','organ','piano','saxophone','trombone','trumpet','tuba','violin','xylophone', 'woodblock'],
+    list: ['bass-electric','bassoon','cello','clarinet','contrabass','drums','flute','french-horn','guitar-acoustic','guitar-electric','guitar-nylon', 'harmonium','harp','organ','piano','saxophone','trombone','trumpet','tuba','violin','xylophone', 'woodblock'],
     onload: null,
   
     setExt: function (newExt) {
@@ -230,6 +230,33 @@ const SampleLibrary = {
         'A#0': 'As0.[mp3|ogg]',
         'B2': 'B2.[mp3|ogg]'
 
+    },
+
+    'drums': {
+        'C2': 'C2.[mp3|ogg]',
+        'D2': 'D2.[mp3|ogg]',
+        'E2': 'E2.[mp3|ogg]',
+        'F2': 'F2.[mp3|ogg]',
+        'F#2': 'Fs2.[mp3|ogg]',
+        'G#2': 'Gs2.[mp3|ogg]',
+        'A2': 'A2.[mp3|ogg]',
+        'B2': 'B2.[mp3|ogg]',
+        'C3': 'C2.[mp3|ogg]',
+        'D3': 'D2.[mp3|ogg]',
+        'E3': 'E2.[mp3|ogg]',
+        'F3': 'F2.[mp3|ogg]',
+        'F#3': 'Fs2.[mp3|ogg]',
+        'G#3': 'Gs2.[mp3|ogg]',
+        'A3': 'A2.[mp3|ogg]',
+        'B3': 'B2.[mp3|ogg]',
+        'C4': 'C2.[mp3|ogg]',
+        'D4': 'D2.[mp3|ogg]',
+        'E4': 'E2.[mp3|ogg]',
+        'F4': 'F2.[mp3|ogg]',
+        'F#4': 'Fs2.[mp3|ogg]',
+        'G#4': 'Gs2.[mp3|ogg]',
+        'A4': 'A2.[mp3|ogg]',
+        'B4': 'B2.[mp3|ogg]',
     },
 
     'flute': {

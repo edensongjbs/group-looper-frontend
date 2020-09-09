@@ -9,7 +9,7 @@ export default (state = {title: "Composition Name", id:null, creatorName:null, o
             return {...action.composition, loading: false}
         
         case 'ADD_ID_TO_COMPOSITION':
-            return {...state, id:action.id}
+            return {...state, id:action.id, creatorName:action.creatorName}
         
         default:
             return state

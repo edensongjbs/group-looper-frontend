@@ -16,6 +16,11 @@ const phraseLength = 400
 
 export const notes = {
   a:"C4",
+  w:"C#4",
+  e:"D#4",
+  t:"F#4",
+  y:"G#4",
+  u:"A#4",
   s:"D4",
   d:"E4",
   f:"F4",

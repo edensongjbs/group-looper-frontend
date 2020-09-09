@@ -1,8 +1,9 @@
 import { loadInstrument } from './instrument'
 import { establishTransportSettings } from '../lib/establish_transport_settings'
+import { baseUrl } from '../settings/global_settings'
 
 export const loadComposition = (compositionId) => {
-    const url = `http://localhost:3000/compositions/${compositionId}`
+    const url = `${baseUrl}compositions/${compositionId}`
     return (dispatch) => {
         dispatch({type:'START_LOADING_COMPOSITION'})
         fetch(url, {headers:{'Authorization': `Bearer ${localStorage.jwt}`}})

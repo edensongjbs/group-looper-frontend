@@ -1,5 +1,7 @@
+import { baseUrl } from '../settings/global_settings'
+
 export const deleteLayer = (layerId) => {
-    const url = `http://localhost:3000/layers/${layerId}`
+    const url = `${baseUrl}layers/${layerId}`
     // const userId = 1 //pass in User ID.  This is just temporary hard coding
     
     const configObj = {

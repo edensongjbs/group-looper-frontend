@@ -6,6 +6,9 @@ export const vol = new Tone.Volume(0).toDestination()
 
 // const piano = SampleLibrary.load({instruments:"piano", onload:()=>ready=true}).connect(vol)
 
+export const baseUrl = "http://localhost:3000/"
+
+
 const phraseLength = 400
 
 export const notes = {

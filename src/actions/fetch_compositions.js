@@ -1,5 +1,7 @@
+import { baseUrl } from '../settings/global_settings'
+
 export const fetchCompositions = (user) => {
-    const url = `http://localhost:3000/getcomplist`
+    const url = `${baseUrl}getcomplist`
 
     const configObj = {
         headers:{'Authorization': `Bearer ${localStorage.jwt}`},

@@ -1,5 +1,7 @@
+import { baseUrl } from '../settings/global_settings'
+
 export const createLayer = (layer, layerId, layerName, compositionId, instrumentName, userName, readOnly=false) => {
-    const url = `http://localhost:3000/layers`
+    const url = `${baseUrl}layers`
     // const userId = 1 //pass in User ID.  This is just temporary hard coding
     const layerString = JSON.stringify(layer.map(p => ({type:p.type, time:p.time, pitch:p.pitch})))
     const layerObj = {

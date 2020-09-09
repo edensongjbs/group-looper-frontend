@@ -1,9 +1,10 @@
 import { loadInstrument } from './instrument'
 import composition from '../reducers/composition'
 import { establishTransportSettings } from '../lib/establish_transport_settings'
+import { baseUrl } from '../settings/global_settings'
 
 export const createNewComposition = (composition) => {
-    const url = `http://localhost:3000/compositions/`
+    const url = `${baseUrl}compositions/`
     // const userId = 1 //pass in User ID.  This is just temporary hard coding
     const compositionObj = {
         name: composition.title,

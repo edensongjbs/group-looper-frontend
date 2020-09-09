@@ -1,5 +1,7 @@
+import { baseUrl } from '../settings/global_settings'
+
 export const loginUser = (user) => {
-    const url = `http://localhost:3000/login`
+    const url = `${baseUrl}login`
     const userObj = {...user}
 
     const configObj = {

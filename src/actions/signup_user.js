@@ -1,5 +1,7 @@
+import { baseUrl } from '../settings/global_settings'
+
 export const signupUser = (user) => {
-    const url = `http://localhost:3000/users`
+    const url = `${baseUrl}users`
     const userObj = {
         name: user.name,
         password: user.password,

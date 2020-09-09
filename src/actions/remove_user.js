@@ -1,5 +1,7 @@
+import { baseUrl } from '../settings/global_settings'
+
 export const removeUser = (userName, compositionId) => {
-    const url = `http://localhost:3000/user_compositions`
+    const url = `${baseUrl}user_compositions`
     const userCompositionObj = {
         user_composition: {
             composition_id: compositionId,

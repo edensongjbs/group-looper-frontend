@@ -14,7 +14,7 @@ export const fetchCompositions = (user) => {
                 dispatch({type:'LOG_ERRORS', errors: [json.error]})
             }
             else {
-                console.log(json)
+                
                 dispatch({type:'POPULATE_COMP_LIST', compositions:json.compositions})
             }
         })

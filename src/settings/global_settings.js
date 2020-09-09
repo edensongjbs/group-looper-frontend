@@ -6,7 +6,10 @@ export const vol = new Tone.Volume(0).toDestination()
 
 // const piano = SampleLibrary.load({instruments:"piano", onload:()=>ready=true}).connect(vol)
 
-export const baseUrl = "http://localhost:3000/"
+// export const baseUrl = "http://localhost:3000/"
+export const baseUrl = "https://guarded-beyond-34371.herokuapp.com/"
+export const wsUrl = "wss://guarded-beyond-34371.herokuapp.com/cable"
+
 
 
 const phraseLength = 400

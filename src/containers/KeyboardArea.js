@@ -66,7 +66,6 @@ class KeyboardArea extends React.Component {
     
 
     render() {
-        console.log(this.props.compositionForm)
         return(
             <div className="keyboard-area">
                 {

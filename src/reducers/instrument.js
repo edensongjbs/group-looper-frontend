@@ -6,7 +6,6 @@ export default (state = {current:{loaded:false}}, action) => {
             return {...state, [action.layerId]:{name: action.instrumentName, instrumentObject: action.instrumentObject, loaded: false}}
         
         case 'FINISH_LOADING_INSTRUMENT':
-            console.log('finishing loading instrument', action)
             theInstrument = state[action.layerId]
             theInstrument.loaded = true
             theInstrument.instrumentObject.toDestination()
@@ -17,7 +16,6 @@ export default (state = {current:{loaded:false}}, action) => {
             return {...state, [action.layerId]:theInstrument}
         
         case 'UPDATE_INSTRUMENT_KEY':
-            console.log('updating instrument key', action)
             theInstrument = {...state[action.oldId]}
             return {...state, [action.newId]:theInstrument}
         

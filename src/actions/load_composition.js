@@ -9,10 +9,10 @@ export const loadComposition = (compositionId) => {
         fetch(url, {headers:{'Authorization': `Bearer ${localStorage.jwt}`}})
         .then(res => res.json())
         .then(json => {
-            console.log(json)
+            
             establishTransportSettings(json.origTempo, json.timeSigNum, json.timeSigDenom, json.numBars)
             if (json.message || json.error) {
-                // console.log(json.message)
+               
                 window.history.pushState({pathname:`/`}, "", `/`)
                 window.location.reload()
                 return
@@ -25,7 +25,11 @@ export const loadComposition = (compositionId) => {
             json.users.forEach(user => {
                 dispatch({type:'ADD_USER', user:{...user, loggedIn:false}})
             })
-            dispatch({type:'FINISH_LOADING_COMPOSITION', composition:json})})
-            dispatch({type:'FINISH_LOADING'})
+            dispatch({type:'FINISH_LOADING_COMPOSITION', composition:json})
+            dispatch({type:'FINISH_LOADING'})}).catch((json)=>{
+                
+                window.history.pushState({pathname:`/`}, "", `/`)
+                window.location.reload()
+            })
     }
 }

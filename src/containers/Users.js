@@ -6,7 +6,6 @@ import { removeUser } from '../actions/remove_user'
 class Users extends React.Component {
 
     render() {
-        // console.log(this.props)
         return(
             <ul className="user-li">
                 {this.props.users.map( user => {

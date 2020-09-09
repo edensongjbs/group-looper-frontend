@@ -21,7 +21,7 @@ export const createLayer = (layer, layerId, layerName, compositionId, instrument
         body:JSON.stringify(layerObj)
     }
     return (dispatch) => {
-        console.log(layer)
+        
         if (layerId!=="metronome") {
             dispatch({type:'CREATE_LAYER', layer, layerId, layerName, readOnly, userName})
         }
@@ -29,7 +29,7 @@ export const createLayer = (layer, layerId, layerName, compositionId, instrument
         fetch(url, configObj)
         .then(res => res.json())
         .then(json => {
-            console.log('post successful')
-        })
+            
+        }).catch()
     }
 }

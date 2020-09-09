@@ -9,6 +9,7 @@ import thunk from 'redux-thunk'
 import {Provider} from 'react-redux'
 import rootReducer from './reducers/root'
 import actionCable from 'actioncable'
+import { wsUrl } from './settings/global_settings'
 // import * as Tone from 'tone'
 
 // const sampler = new Tone.Sampler({
@@ -28,7 +29,8 @@ const store = createStore(rootReducer, composeEnhancer(applyMiddleware(thunk)))
 
 const CableApp = {}
 
-CableApp.cable = actionCable.createConsumer('ws://localhost:3000/cable')
+// CableApp.cable = actionCable.createConsumer('ws://localhost:3000/cable')
+CableApp.cable = actionCable.createConsumer(wsUrl)
 // const store = createStore(
 //   shoppingListItemReducer,
 //   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()

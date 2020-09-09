@@ -12,6 +12,6 @@ export const deleteLayer = (layerId) => {
         dispatch({type:'DELETE_LAYER', layerId})
         fetch(url, configObj)
         .then(res => res.json())
-        .then(console.log)
+        .then()
     }
 }

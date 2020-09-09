@@ -2,11 +2,9 @@ export default (state = [], action) => {
     switch (action.type) {
         
         case 'ADD_USER':
-            console.log(action)
             return [...state, action.user]
         
         case 'REMOVE_USER':
-            console.log(action)
             return state.filter(user => user.userName !== action.userName)
 
         case 'UPDATE_USER_STATUS':

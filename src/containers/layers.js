@@ -6,7 +6,6 @@ import { deleteLayer } from '../actions/delete_layer'
 class Layers extends React.Component {
 
     render() {
-        // console.log(this.props)
         return(
             <ul>
                 {this.props.layers.map( layer => {

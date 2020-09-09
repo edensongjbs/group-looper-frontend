@@ -18,7 +18,7 @@ export const removeUser = (userName, compositionId) => {
         fetch(url, configObj)
         .then(res => res.json())
         .then(json => {
-            console.log(json)
+            
         })
     }
 }

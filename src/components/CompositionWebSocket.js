@@ -14,7 +14,7 @@ class CompositionWebSocket extends React.Component {
         },
         {
             received: (response) => {
-                console.log(response)
+                
                 switch (response.action) {
                     case 'ADD_LAYER':
                         const newLayer = response.layer
@@ -34,12 +34,12 @@ class CompositionWebSocket extends React.Component {
                     
                     case 'ADD_USER':
                         
-                        console.log(`Inside websocket`, response)
+                        
                         this.props.addUser(response.user)
                     
                     case 'REMOVE_USER':
 
-                        console.log(`Inside websocket`, response)
+                        
                         this.props.removeUser(response.userName)
 
                 }

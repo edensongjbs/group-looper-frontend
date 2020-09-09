@@ -8,7 +8,6 @@ export default class User extends React.Component {
     }
 
     render() {
-        console.log(this.props)
         return(
             <li>
                 <div className="layer-li">{this.undeletable() ? null : <button onClick={() => this.props.remove(this.props.user.userName, this.props.compId)}>X</button>}<span>{this.props.user.userName}{this.props.user.userName===this.props.currentUser? " (you)" : null}</span></div>

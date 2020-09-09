@@ -36,7 +36,7 @@ class SelectCompositionForm extends React.Component {
     }
 
     render(){
-        // console.log(this.props.compositions)
+       
         return(
             <div type="new-comp-form">
                 <form onSubmit={this.submitHandler}>

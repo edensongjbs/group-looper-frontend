@@ -94,12 +94,12 @@ class Layer extends React.Component {
     }
 
     undeletable = () => {
-        // console.log({compCreator: this.props.compCreator, currentUser: this.props.currentUser, layerUser: this.props.layer.userName, readOnly: this.props.layer.readOnly, })
+       
         return ((this.props.layer.readOnly) || ((this.props.layer.userName !== this.props.currentUser) &&  (this.props.compCreator !== this.props.currentUser)))
     }
 
     render() {
-        // console.log(this.props.layer.readOnly)
+       
         return(
             <li>
                 <div className="layer-li">{this.undeletable() ? null : <button onClick={() => this.props.delete(this.props.layer.id)}>X</button>}<span className={this.playStatus()} onClick={this.muteOrUnmuteLayer}>{this.props.layer.name}</span></div>

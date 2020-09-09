@@ -12,7 +12,6 @@ class SignupForm extends React.Component {
     submitHandler = (e) => {
         e.preventDefault()
         this.props.clearErrors()
-        console.log("trying to submit")
         this.props.signupUser(this.state)
     }
 

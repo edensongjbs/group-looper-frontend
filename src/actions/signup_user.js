@@ -15,6 +15,7 @@ export const signupUser = (user) => {
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify(userObj)
     }
+    
     return (dispatch) => {
         fetch(url, configObj)
         .then(res => res.json())

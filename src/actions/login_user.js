@@ -17,7 +17,7 @@ export const loginUser = (user) => {
                 dispatch({type:'LOG_ERRORS', errors: [json.error]})
             }
             else {
-                console.log(json)
+                
                 dispatch({type:'LOGIN', user: {userName: json.userName, jwt: json.jwt}})
             }
         })

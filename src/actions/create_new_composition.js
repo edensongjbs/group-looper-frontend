@@ -27,12 +27,12 @@ export const createNewComposition = (composition) => {
         .then(res => res.json())
         .then(json => {
             if (json.error) {
-                console.log(json)
+                
                 debugger
                 dispatch({type:'LOG_ERRORS', errors: [json.error]})
             }
             else {
-                console.log(json)
+                
                 dispatch({type:'ADD_ID_TO_COMPOSITION', id:json.id})
                 dispatch({type:'FINISH_LOADING'})
                 dispatch({type:'TRIGGER_METRONOME_CONSTRUCTION'})

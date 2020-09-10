@@ -1,3 +1,14 @@
+# Group Looper
+## A Multi-player Music Looping Tool For Real-Time Remote Collaboration
+
+To try it for yourself, visit [Group Looper on Surge](https://erratic-pest.surge.sh)
+
+Here's the link for the [Group Looper Backend Repo on Github](https://github.com/edensongjbs/group-looper-backend)
+
+Demo Video and more info coming soon...
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

@@ -6,6 +6,7 @@ import NewCompositionForm from '../components/NewCompositionForm'
 import LoginForm from '../components/LoginForm'
 import SignupForm from '../components/SignupForm'
 import SelectCompositionForm from '../components/SelectCompositionForm'
+import Keyboard from '../components/Keyboard'
 
 class KeyboardArea extends React.Component {
       
@@ -14,10 +15,21 @@ class KeyboardArea extends React.Component {
     
     ready = false
 
+    state = {playingNotes:{}}
+
+    highlightNote = (noteName) => {
+        this.setState(() => ({playingNotes: {...this.state.playingNotes, [noteName]:true}}))
+    }
+
+    unhighlightNote = (noteName) => {
+        this.setState(()=>({playingNotes: {...this.state.playingNotes, [noteName]:false}}))
+    }
+
     
     playNote = (noteName) => {
         if (!noteName) {return}
         if (this.props.transport.disabled || !this.props.instrument.loaded || !this.props.loaded) {return}
+        this.highlightNote(noteName)
         const phraseLength = (60/this.props.composition.origTempo)*this.props.composition.timeSigNum*this.props.composition.numBars
         const synth = this.props.instrument.instrumentObject
         const now = Tone.now()
@@ -33,6 +45,7 @@ class KeyboardArea extends React.Component {
     releaseNote = (noteName) => {
         if (!noteName) {return}
         if (this.props.transport.disabled || !this.props.instrument.loaded || !this.props.loaded) {return}
+        this.unhighlightNote(noteName)
         const phraseLength = (60/this.props.composition.origTempo)*this.props.composition.timeSigNum*this.props.composition.numBars
         const now = Tone.now()
         const reallyNow = Tone.Transport.immediate()-this.props.transport.timeNow
@@ -70,9 +83,11 @@ class KeyboardArea extends React.Component {
     render() {
         return(
             <div className="keyboard-area">
+                
                 {
                     this.props.loaded && this.props.loggedIn ? 
-                    <img src="https://media.giphy.com/media/RgzryV9nRCMHPVVXPV/giphy.gif" alt="loading"/> : 
+                    <Keyboard playingNotes={this.state.playingNotes}/> :
+                    // <img src="https://media.giphy.com/media/RgzryV9nRCMHPVVXPV/giphy.gif" alt="loading"/> :
                     this.props.loggedIn ?
                     this.props.compositionForm === 'SELECT_COMPOSITION' ?
                     <SelectCompositionForm/> :

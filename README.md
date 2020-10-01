@@ -3,7 +3,7 @@
 
 To try it for yourself, visit [Group Looper on Surge](https://erratic-pest.surge.sh)
 
-Here's the link for the [Group Looper Backend Repo on Github](https://github.com/edensongjbs/group-looper-backend)
+Here's the link for the [Group Looper Back-end Repo on Github](https://github.com/edensongjbs/group-looper-backend)
 
 Check Out the [Video Demo](https://www.youtube.com/watch?v=v2WPS7YCb0U&list=PLjQ6pMJBYCggIXv9A20GPGB2SEx_aymRO&index=1)
 
